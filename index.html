@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathematics Terminology Quiz</title>
+    <title>Klassenarbeit Mathematik Termumformungen (50 Fragen)</title>
     <!-- Tailwind CSS for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -14,7 +14,7 @@
             background-color: #f7f9fc;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to the top, not center, for better scrolling */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
         }
@@ -29,7 +29,7 @@
         .quiz-card {
             border: 1px solid #e0e7ff;
             background-color: #f0f4ff;
-            padding: 20px;
+            padding: 30px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
@@ -65,50 +65,50 @@
 
     <div class="container">
         <header class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-indigo-800">Mathematics Terminology Quiz</h1>
-            <p class="text-lg text-gray-600 mt-2">Test your knowledge of common mathematical terms.</p>
+            <h1 class="text-4xl font-extrabold text-indigo-800">Klassenarbeit: Termumformungen (50 Aufgaben)</h1>
+            <p class="text-lg text-gray-600 mt-2">Thema: Terme vereinfachen, Faktorisieren, Binomische Formeln (Klasse 8).</p>
         </header>
 
         <!-- Quiz Section -->
         <section id="quizSection" class="quiz-card">
-            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Your Quiz</h2>
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Ihr Test</h2>
 
             <div id="quiz-container" class="space-y-6">
                 <!-- Quiz questions will be injected here -->
             </div>
 
-            <div id="result-area" class="mt-8 p-4 bg-green-100 border border-green-300 rounded-lg hidden">
-                <p class="text-xl font-bold text-green-700">Quiz Complete!</p>
+            <div id="result-area" class="mt-8 p-6 bg-green-100 border border-green-300 rounded-lg hidden">
+                <p class="text-xl font-bold text-green-700">Test abgeschlossen!</p>
                 <p id="score-text" class="text-2xl font-extrabold mt-2"></p>
                 <div class="mt-4">
-                    <label for="studentName" class="block text-sm font-medium text-gray-700">Your Name (for the Leaderboard):</label>
-                    <input type="text" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" placeholder="e.g., Ada Lovelace">
+                    <label for="studentName" class="block text-sm font-medium text-gray-700">Ihr Name (für die Bestenliste):</label>
+                    <input type="text" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" placeholder="z.B. Albert Einstein">
                 </div>
                 <button onclick="saveResult()" id="saveButton" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out disabled:opacity-50">
-                    Submit Quiz & Save Result
+                    Test speichern & Ergebnis eintragen
                 </button>
             </div>
 
             <button onclick="checkAnswers()" id="submitButton" class="mt-8 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg shadow-xl transition duration-150 ease-in-out">
-                Submit Quiz
+                Test abgeben (50 Aufgaben)
             </button>
         </section>
 
         <!-- Leaderboard Section -->
         <section class="mt-10">
-            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Leaderboard (Local Scores)</h2>
-            <div id="statusMessage" class="text-sm text-green-600 mb-4">Scores are saved and retrieved from your browser.</div>
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Bestenliste (Lokale Ergebnisse)</h2>
+            <div id="statusMessage" class="text-sm text-green-600 mb-4">Ergebnisse werden in Ihrem Browser gespeichert und abgerufen.</div>
 
             <div class="leaderboard-header flex justify-between">
-                <span class="w-1/12 text-center">Rank</span>
-                <span class="w-7/12 truncate">Student Name</span>
-                <span class="w-2/12 text-center">Score</span>
-                <span class="w-2/12 text-right text-xs">Time</span>
+                <span class="w-1/12 text-center">Rang</span>
+                <span class="w-7/12 truncate">Name des Schülers/der Schülerin</span>
+                <span class="w-2/12 text-center">Punkte</span>
+                <span class="w-2/12 text-right text-xs">Zeit</span>
             </div>
 
             <div class="leaderboard-list-container bg-white">
                 <ul id="leaderboardList" class="space-y-2 p-4">
-                    <li class="text-center text-gray-500">Loading scores...</li>
+                    <li class="text-center text-gray-500">Ergebnisse werden geladen...</li>
                 </ul>
             </div>
         </section>
@@ -121,64 +121,100 @@
         onload="document.addEventListener('DOMContentLoaded', () => { renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] }); });"></script>
 
     <script>
-        // --- QUIZ DATA ---
+        // --- QUIZ DATA (Termumformungen Klasse 8) ---
         const questions = [
-            {
-                // Quadratic Equation
-                text: "The solution to a quadratic equation, $ax^2 + bx + c = 0$, can be found using the formula: $$ x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a} $$ What is this formula called?",
+            // --- KATEGORIE 1: Vereinfachung (Zusammenfassen) (1-10) ---
+            { text: "1. Vereinfachen Sie: $$ 5x + 3y - 2x + 7y $$", type: "text", answer: "3x + 10y" },
+            { text: "2. Vereinfachen Sie: $$ 12a - 5b + a + 8b $$", type: "text", answer: "13a + 3b" },
+            { text: "3. Vereinfachen Sie: $$ p^2 + 3p - 4p^2 - p $$", type: "text", answer: "-3p^2 + 2p" },
+            { text: "4. Vereinfachen Sie: $$ 7mn - 2m - 5mn + 4m $$", type: "text", answer: "2mn + 2m" },
+            { text: "5. Vereinfachen Sie: $$ 10k + 3l + 5 - 2k - 8l $$", type: "text", answer: "8k - 5l + 5" },
+            { text: "6. Vereinfachen Sie: $$ 4x^2y + 5xy^2 - 2x^2y - xy^2 $$", type: "text", answer: "2x^2y + 4xy^2" },
+            { text: "7. Vereinfachen Sie: $$ 1.5r - 0.5s + 3.5s - 0.5r $$", type: "text", answer: "r + 3s" },
+            { text: "8. Vereinfachen Sie: $$ -(3a + 4b) + 5a - b $$", type: "text", answer: "2a - 5b" },
+            { text: "9. Vereinfachen Sie: $$ 2c^3 + 4c^2 - 3c^3 - 4c^2 $$", type: "text", answer: "-c^3" },
+            { text: "10. Vereinfachen Sie: $$ 6gh + 2h^2 - 3gh - 2h^2 + g $$", type: "text", answer: "3gh + g" },
+
+            // --- KATEGORIE 2: Ausmultiplizieren (Distributivgesetz) (11-20) ---
+            { text: "11. Multiplizieren Sie aus: $$ 3(4x - 5y) $$", type: "text", answer: "12x - 15y" },
+            { text: "12. Multiplizieren Sie aus: $$ -2(a + 3b) $$", type: "text", answer: "-2a - 6b" },
+            { text: "13. Multiplizieren Sie aus: $$ x(x^2 - 4x) $$", type: "text", answer: "x^3 - 4x^2" },
+            { text: "14. Multiplizieren Sie aus: $$ -5(3m + 2n - 1) $$", type: "text", answer: "-15m - 10n + 5" },
+            { text: "15. Multiplizieren Sie aus: $$ (2p - 7q) \cdot 6 $$", type: "text", answer: "12p - 42q" },
+            { text: "16. Multiplizieren Sie aus: $$ y(3x + 4y) $$", type: "text", answer: "3xy + 4y^2" },
+            { text: "17. Multiplizieren Sie aus: $$ -0.5(8k + 2l) $$", type: "text", answer: "-4k - l" },
+            { text: "18. Multiplizieren Sie aus: $$ a^2(3b - 2a) $$", type: "text", answer: "3a^2b - 2a^3" },
+            { text: "19. Multiplizieren Sie aus: $$ (m - n) \cdot (-4) $$", type: "text", answer: "-4m + 4n" },
+            { text: "20. Vereinfachen Sie: $$ 3(r^2 + 2r) + r $$", type: "text", answer: "3r^2 + 7r" },
+            
+            // --- KATEGORIE 3: Faktorisieren (Ausklammern) (21-30) ---
+            { text: "21. Klammern Sie den größten gemeinsamen Faktor aus: $$ 8a + 12b $$", type: "text", answer: "4(2a + 3b)" },
+            { text: "22. Klammern Sie den größten gemeinsamen Faktor aus: $$ 15x^2 - 5x $$", type: "text", answer: "5x(3x - 1)" },
+            { text: "23. Klammern Sie den größten gemeinsamen Faktor aus: $$ 10mn + 20m $$", type: "text", answer: "10m(n + 2)" },
+            { text: "24. Klammern Sie den größten gemeinsamen Faktor aus: $$ 18p^3 - 6p^2 $$", type: "text", answer: "6p^2(3p - 1)" },
+            { 
+                text: "25. Klammern Sie den größten gemeinsamen Faktor aus: $$ 3xy + 6yz - 9xz $$", 
                 type: "multiple-choice",
-                options: ["Pythagorean Theorem", "Quadratic Formula", "Fundamental Theorem of Algebra", "Binomial Theorem"],
-                answer: "Quadratic Formula"
+                options: ["3(xy + 2yz - 3xz)", "3x(y + 2z - 3z)", "3y(x + 2z - 3x)", "3z(3xy + 6y - 9x)"],
+                answer: "3(xy + 2yz - 3xz)"
             },
-            {
-                // Probability
-                text: "In probability, the set of all possible outcomes of an experiment is known as the:",
+            { text: "26. Klammern Sie den größten gemeinsamen Faktor aus: $$ a^4 + a^3 + a^2 $$", type: "text", answer: "a^2(a^2 + a + 1)" },
+            { text: "27. Klammern Sie den größten gemeinsamen Faktor aus: $$ 7k^2l - 14kl^2 $$", type: "text", answer: "7kl(k - 2l)" },
+            { text: "28. Klammern Sie den größten gemeinsamen Faktor aus: $$ 24r^2s^2 - 16r^2s $$", type: "text", answer: "8r^2s(3s - 2)" },
+            { text: "29. Klammern Sie den größten gemeinsamen Faktor aus: $$ 13c + 13d $$", type: "text", answer: "13(c + d)" },
+            { text: "30. Klammern Sie den größten gemeinsamen Faktor aus: $$ 0.5x + 1.5y $$", type: "text", answer: "0.5(x + 3y)" },
+
+            // --- KATEGORIE 4: Binomische Formeln (Anwendung) (31-40) ---
+            { text: "31. Wenden Sie die 1. binomische Formel an: $$ (x + 3)^2 $$", type: "text", answer: "x^2 + 6x + 9" },
+            { text: "32. Wenden Sie die 2. binomische Formel an: $$ (a - 7)^2 $$", type: "text", answer: "a^2 - 14a + 49" },
+            { 
+                text: "33. Multiplizieren Sie aus: $$ (2m + 5)^2 $$", 
                 type: "multiple-choice",
-                options: ["Event space", "Sample space", "Outcome set", "Domain"],
-                answer: "Sample space"
+                options: ["2m^2 + 10m + 25", "4m^2 + 10m + 25", "4m^2 + 20m + 25", "4m^2 + 25"],
+                answer: "4m^2 + 20m + 25"
             },
-            {
-                // Calculus / Slope
-                text: "What term describes the instantaneous rate of change of a function, typically found by calculating the derivative?",
-                type: "text",
-                answer: "Slope" // Also accept 'Derivative'
-            },
-            {
-                // Geometry / Polygon
-                text: "A polygon with ten sides and ten vertices is known as a:",
+            { text: "34. Multiplizieren Sie aus: $$ (3b - 4c)^2 $$", type: "text", answer: "9b^2 - 24bc + 16c^2" },
+            { text: "35. Wenden Sie die 3. binomische Formel an: $$ (y + 6)(y - 6) $$", type: "text", answer: "y^2 - 36" },
+            { 
+                text: "36. Multiplizieren Sie aus: $$ (4k + 1)(4k - 1) $$", 
                 type: "multiple-choice",
-                options: ["Nonagon", "Dodecagon", "Decagon", "Hexagon"],
-                answer: "Decagon"
+                options: ["16k^2 - 8k + 1", "16k^2 + 1", "16k^2 - 1", "4k^2 - 1"],
+                answer: "16k^2 - 1"
             },
-            {
-                // Algebra / Variable
-                text: "In the expression $3x + 5 = 14$, what term is used for the unknown value represented by the letter '$x$'?",
-                type: "text",
-                answer: "Variable"
-            },
-            {
-                // Set Theory
-                text: "What is the term for a collection of distinct objects?",
+            { text: "37. Multiplizieren Sie aus: $$ (10 - z)^2 $$", type: "text", answer: "100 - 20z + z^2" },
+            { text: "38. Wenden Sie die 1. binomische Formel an: $$ (0.5x + 2y)^2 $$", type: "text", answer: "0.25x^2 + 2xy + 4y^2" },
+            { text: "39. Multiplizieren Sie aus: $$ (r^2 - 9)(r^2 + 9) $$", type: "text", answer: "r^4 - 81" },
+            { text: "40. Multiplizieren Sie aus: $$ (-p - q)^2 $$", type: "text", answer: "p^2 + 2pq + q^2" },
+
+            // --- KATEGORIE 5: Komplexe / Vermischte Terme (41-50) ---
+            { text: "41. Vereinfachen Sie: $$ (x+2)^2 - 4x $$", type: "text", answer: "x^2 + 4" },
+            { 
+                text: "42. Vereinfachen Sie: $$ (a-b)^2 + 2ab $$", 
                 type: "multiple-choice",
-                options: ["Function", "Set", "Domain", "Range"],
-                answer: "Set"
+                options: ["a^2 + 2ab + b^2", "a^2 - b^2", "a^2 + b^2", "a^2"],
+                answer: "a^2 + b^2"
             },
-            {
-                // Statistics
-                text: "The value that appears most often in a set of data is called the:",
-                type: "text",
-                answer: "Mode"
-            },
-            {
-                // Trigonometry
-                text: "In a right-angled triangle, the ratio of the length of the side opposite an angle to the length of the hypotenuse is the:",
+            { text: "43. Vereinfachen Sie: $$ 2(3x + 1) + (x - 5) $$", type: "text", answer: "7x - 3" },
+            { text: "44. Vereinfachen Sie: $$ (m+3)(m-3) - m^2 $$", type: "text", answer: "-9" },
+            { text: "45. Vereinfachen Sie: $$ 5y - 2(y + 3) + 7 $$", type: "text", answer: "3y + 1" },
+            { 
+                text: "46. Vereinfachen Sie: $$ p(p^2 - 3) + 3p $$", 
                 type: "multiple-choice",
-                options: ["Cosine", "Tangent", "Secant", "Sine"],
-                answer: "Sine"
-            }
+                options: ["p^3 - 6p", "p^3", "p^3 + 6p", "p^3 - 9p"],
+                answer: "p^3"
+            },
+            { 
+                text: "47. Vereinfachen Sie: $$ (k + l)^2 - (k - l)^2 $$", 
+                type: "multiple-choice",
+                options: ["0", "2kl", "4kl", "2k^2 + 2l^2"],
+                answer: "4kl"
+            },
+            { text: "48. Vereinfachen Sie den Bruch: $$ \\frac{15a^4b^3}{3a^2b} $$", type: "text", answer: "5a^2b^2" },
+            { text: "49. Vereinfachen Sie: $$ x(x+1) + x(x-1) $$", type: "text", answer: "2x^2" },
+            { text: "50. Vereinfachen Sie: $$ (2c - 3d)(2c + 3d) + 9d^2 $$", type: "text", answer: "4c^2" }
         ];
 
-        // --- LOCAL STORAGE & LEADERBOARD LOGIC ---
+        // --- LOCAL STORAGE & LEADERBOARD LOGIC (Unchanged, uses the same mechanism) ---
         const STORAGE_KEY = 'mathQuizScores';
 
         function getScores() {
@@ -186,7 +222,7 @@
                 const scoresJson = localStorage.getItem(STORAGE_KEY);
                 return scoresJson ? JSON.parse(scoresJson) : [];
             } catch (e) {
-                console.error("Error reading from Local Storage:", e);
+                console.error("Fehler beim Lesen aus dem Lokalen Speicher:", e);
                 return [];
             }
         }
@@ -197,37 +233,36 @@
             // Sort the scores: 1. Score (desc) 2. Timestamp (asc)
             scores.sort((a, b) => {
                 if (b.score !== a.score) {
-                    return b.score - a.score; // Higher score first
+                    return b.score - a.score;
                 }
-                return a.timestamp - b.timestamp; // Earlier time first (tie-breaker)
+                return a.timestamp - b.timestamp;
             });
             
-            // Keep only the top 100 entries to prevent local storage overflow
             const topScores = scores.slice(0, 100); 
 
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(topScores));
                 renderLeaderboard();
-                document.getElementById('statusMessage').textContent = `Score saved successfully to your browser! (${scoreData.score}%)`;
+                document.getElementById('statusMessage').textContent = `Ergebnis erfolgreich in Ihrem Browser gespeichert! (${scoreData.score}%)`;
             } catch (e) {
-                console.error("Error writing to Local Storage:", e);
-                document.getElementById('statusMessage').textContent = `Error: Could not save score. Local storage might be full.`;
+                console.error("Fehler beim Schreiben in den Lokalen Speicher:", e);
+                document.getElementById('statusMessage').textContent = `Fehler: Ergebnis konnte nicht gespeichert werden. Der lokale Speicher ist möglicherweise voll.`;
             }
         }
 
         function renderLeaderboard() {
-            const topScores = getScores().slice(0, 10); // Show only the top 10
+            const topScores = getScores().slice(0, 10);
             const list = document.getElementById('leaderboardList');
             list.innerHTML = '';
             
             if (topScores.length === 0) {
-                list.innerHTML = '<p class="text-center text-gray-500 py-4">No scores recorded yet on this device.</p>';
+                list.innerHTML = '<p class="text-center text-gray-500 py-4">Noch keine Ergebnisse auf diesem Gerät gespeichert.</p>';
                 return;
             }
 
             topScores.forEach((scoreData, index) => {
                 const date = new Date(scoreData.timestamp);
-                const dateString = date.toLocaleTimeString('en-US', {
+                const dateString = date.toLocaleTimeString('de-DE', {
                     hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric'
                 });
 
@@ -235,7 +270,7 @@
                 item.className = `flex justify-between items-center p-3 rounded-lg shadow-sm mb-2 text-sm bg-white hover:bg-indigo-50 transition duration-100 border border-gray-100`;
                 item.innerHTML = `
                     <span class="w-1/12 text-center text-lg font-bold text-indigo-600">${index + 1}.</span>
-                    <span class="w-7/12 truncate text-gray-800">${scoreData.studentName || 'Anonymous'}</span>
+                    <span class="w-7/12 truncate text-gray-800">${scoreData.studentName || 'Anonym'}</span>
                     <span class="w-2/12 text-center text-lg font-extrabold text-green-600">${scoreData.score}%</span>
                     <span class="w-2/12 text-right text-gray-500 text-xs">${dateString}</span>
                 `;
@@ -253,15 +288,60 @@
         let quizCompleted = false;
         let finalScorePercentage = 0;
         
-        // Function to handle synonyms for text answers
-        function getSynonyms(term) {
-            switch (term.toLowerCase()) {
-                case 'slope': return ['gradient', 'rate of change'];
-                case 'variable': return ['unknown', 'pro-numeral'];
-                case 'mode': return [];
-                default: return [];
-            }
+        // Function to normalize and check text answers (case-insensitive, space-agnostic, variable order)
+        function normalizeAnswer(answer) {
+            // 1. Remove all spaces and convert to lowercase
+            let normalized = answer.replace(/\s/g, '').toLowerCase(); 
+            
+            // 2. Normalize common mathematical expression forms
+            // Replace leading 1 or +/-1 before a variable (e.g., 1x, +1y)
+            normalized = normalized.replace(/([+-])?1([a-z])/g, (match, sign, variable) => 
+                (sign || '+') + variable
+            );
+            normalized = normalized.replace(/^1([a-z])/, (match, variable) => variable); // Handle leading '1x'
+            
+            // 3. Simple algebraic order canonicalization (VERY complex, handle specific known correct/alternative forms)
+            // Example: "3x+10y" vs "10y+3x" - handled manually in checkTextAnswer for known cases.
+            
+            return normalized;
         }
+
+        function checkTextAnswer(userAnswer, correctAnswer) {
+            const userNormalized = normalizeAnswer(userAnswer);
+            const correctNormalized = normalizeAnswer(correctAnswer);
+
+            // 1. Check direct match
+            if (userNormalized === correctNormalized) return true;
+
+            // 2. Handle specific commutative cases manually for robustness (e.g., A+B vs B+A, (A)(B) vs (B)(A))
+            
+            // Reordering terms (e.g., 13a+3b vs 3b+13a)
+            const parts = correctNormalized.match(/([+-]?[^+-]+)/g) || [correctNormalized];
+            if (parts.length > 1) {
+                const reversedNormalized = parts.reverse().join('');
+                if (userNormalized === reversedNormalized) return true;
+            }
+
+            // Reordering factors in multiplication (e.g., (A)(B) vs (B)(A))
+            if (correctAnswer.includes(')(')) {
+                // Extracts content inside parentheses: 4(2a+3b) -> 4, 2a+3b
+                const correctFactors = correctAnswer.match(/([a-zA-Z0-9.\-]+(?!\^))|(\([^)]+\))/g);
+                if (correctFactors && correctFactors.length > 1) {
+                    const altAnswer = correctFactors.reverse().join('');
+                    if (userNormalized === normalizeAnswer(altAnswer)) return true;
+                }
+            }
+            
+            // Handle (3m - 2n)(3m + 2n) vs (3m + 2n)(3m - 2n)
+            if (correctAnswer === "(3m - 2n)(3m + 2n)") {
+                const altAnswer = "(3m + 2n)(3m - 2n)"; 
+                if (userNormalized === normalizeAnswer(altAnswer)) return true;
+            }
+
+
+            return false;
+        }
+
 
         // Function to render the questions
         function renderQuiz() {
@@ -273,20 +353,22 @@
                 // Use a separate div for the question text to allow KaTeX rendering
                 const textDiv = document.createElement('div');
                 textDiv.className = 'font-bold text-gray-800 mb-3';
-                textDiv.innerHTML = `${qIndex}. ${q.text}`;
+                // We trust the question text already has the index number from the array data
+                textDiv.innerHTML = q.text;
 
                 questionDiv.appendChild(textDiv);
 
                 if (q.type === 'multiple-choice') {
                     const optionsDiv = document.createElement('div');
                     optionsDiv.className = 'space-y-2 ml-4';
-                    q.options.sort(() => Math.random() - 0.5); // Shuffle options
+                    // Do not shuffle the options for a test environment to maintain consistency
                     q.options.forEach(option => {
                         const label = document.createElement('label');
                         label.className = 'flex items-center space-x-2 text-gray-700 cursor-pointer hover:bg-indigo-50 p-2 rounded-md transition';
+                        
                         label.innerHTML = `
                             <input type="radio" name="question${qIndex}" value="${option}" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4" data-q-index="${qIndex}">
-                            <span>${option}</span>
+                            <span class="text-base">${option}</span>
                         `;
                         optionsDiv.appendChild(label);
                     });
@@ -294,8 +376,8 @@
                 } else if (q.type === 'text') {
                     const input = document.createElement('input');
                     input.type = 'text';
-                    input.placeholder = 'Type your answer here...';
-                    input.className = 'w-full mt-2 p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500';
+                    input.placeholder = 'Ihre vereinfachte Lösung (z.B. 2x^2 + 5x - 7)...';
+                    input.className = 'w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-lg';
                     input.setAttribute('data-q-index', qIndex);
                     questionDiv.appendChild(input);
                 }
@@ -315,7 +397,7 @@
 
         // Function to check answers and calculate score
         function checkAnswers() {
-            if (quizCompleted) return; // Prevent double submission
+            if (quizCompleted) return;
 
             let score = 0;
             const totalQuestions = questions.length;
@@ -326,7 +408,7 @@
                 let userAnswer = '';
                 let isCorrect = false;
 
-                // Remove previous feedback if any
+                // Previous feedback removal
                 questionElement.querySelectorAll('.feedback').forEach(f => f.remove());
 
                 if (q.type === 'multiple-choice') {
@@ -339,11 +421,7 @@
                     const input = document.querySelector(`input[data-q-index="${qIndex}"]`);
                     if (input) {
                         userAnswer = input.value.trim();
-                        // Case-insensitive comparison and allow for synonyms
-                        const normalizedAnswer = userAnswer.toLowerCase();
-                        const acceptedAnswers = [q.answer.toLowerCase(), ...getSynonyms(q.answer)];
-
-                        isCorrect = acceptedAnswers.includes(normalizedAnswer);
+                        isCorrect = checkTextAnswer(userAnswer, q.answer);
                     }
                 }
 
@@ -361,7 +439,7 @@
                     // Show correct answer for wrong answers
                     const feedback = document.createElement('p');
                     feedback.className = 'mt-2 text-sm font-semibold text-red-700 feedback';
-                    feedback.innerHTML = `Incorrect. The correct answer is: <span class="text-green-700 font-bold">${q.answer}</span>`;
+                    feedback.innerHTML = `Falsch. Die richtige Antwort (oder eine äquivalente Form) ist: <span class="text-green-700 font-bold">${q.answer}</span>`;
                     questionElement.appendChild(feedback);
                 }
 
@@ -371,7 +449,7 @@
 
             // Calculate and display final score
             finalScorePercentage = Math.round((score / totalQuestions) * 100);
-            scoreText.innerHTML = `You scored: <span class="text-indigo-800">${score} / ${totalQuestions}</span>, or **${finalScorePercentage}%**!`;
+            scoreText.innerHTML = `Sie haben <span class="text-indigo-800">${score} von ${totalQuestions}</span>, oder **${finalScorePercentage}%** erzielt!`;
             
             // Update UI state
             submitButton.classList.add('hidden');
@@ -382,28 +460,25 @@
         // Function to save result (calls the Local Storage function)
         function saveResult() {
             if (!quizCompleted) {
-                document.getElementById('statusMessage').textContent = 'Please complete the quiz first before saving.';
+                document.getElementById('statusMessage').textContent = 'Bitte füllen Sie den Test zuerst aus, bevor Sie speichern.';
                 return;
             }
             
-            // Get the student name from the input field
             const studentNameInput = document.getElementById('studentName');
-            const studentName = studentNameInput.value.trim() || 'Anonymous';
+            const studentName = studentNameInput.value.trim() || 'Anonym';
             
             const scoreData = {
                 studentName: studentName,
                 score: finalScorePercentage,
-                timestamp: Date.now() // Use millisecond timestamp for sorting
+                timestamp: Date.now()
             };
 
-            // Disable the button and save
             saveButton.disabled = true;
-            saveButton.textContent = 'Saving...';
+            saveButton.textContent = 'Wird gespeichert...';
             
             saveScoreToLocal(scoreData);
             
-            saveButton.textContent = 'Result Saved!';
-            // Clear the input field after successful save
+            saveButton.textContent = 'Ergebnis gespeichert!';
             studentNameInput.value = '';
         }
 
