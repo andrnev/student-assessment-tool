@@ -138,7 +138,8 @@
             { 
                 text: "12. Vereinfachen Sie: $$ \\frac{1}{2}x + \\frac{3}{4}x - 2y $$", 
                 type: "multiple-choice",
-                options: ["x - 2y", "\\frac{4}{6}x - 2y", "\\frac{5}{4}x - 2y", "1.5x - 2y"],
+                // Hinzufügen der $-Begrenzer, damit KaTeX die Brüche rendert
+                options: ["$ x - 2y $", "$ \\frac{4}{6}x - 2y $", "$ \\frac{5}{4}x - 2y $", "1.5x - 2y"],
                 answer: "\\frac{5}{4}x - 2y" 
             },
             { text: "13. Vereinfachen Sie: $$ 13g - 2g^2 + 5g^2 - 13g $$", type: "text", answer: "3g^2" },
@@ -192,7 +193,7 @@
             { 
                 text: "45. Vereinfachen Sie: $$ r(r+1) - 2(r^2 + r) $$", 
                 type: "multiple-choice",
-                options: ["-r^2 + r", "-r^2 - r", "r^2 - r", "-2r^2 - 2r"],
+                options: ["$ -r^2 + r $", "$ -r^2 - r $", "$ r^2 - r $", "$ -2r^2 - 2r $"],
                 answer: "-r^2 - r"
             },
             { text: "46. Vereinfachen Sie: $$ (x+y)(x-y) + y^2 $$", type: "text", answer: "x^2" }, // Binom
@@ -202,7 +203,7 @@
             { 
                 text: "50. Vereinfachen Sie: $$ (x+1)^2 - (x-1)^2 $$", 
                 type: "multiple-choice",
-                options: ["0", "4x", "2x^2 + 2", "2x"],
+                options: ["0", "4x", "$ 2x^2 + 2 $", "2x"],
                 answer: "4x"
             } // Binom
         ];
@@ -271,7 +272,7 @@
             });
         }
 
-        // --- QUIZ CORE LOGIC ---
+        // --- QUIZ CORE LOGIC (unchanged logic for answer checking) ---
         let userAnswers = {};
         const quizContainer = document.getElementById('quiz-container');
         const submitButton = document.getElementById('submitButton');
@@ -292,6 +293,9 @@
                 (sign || '+') + variable
             );
             normalized = normalized.replace(/^1([a-z])/, (match, variable) => variable); // Handle leading '1x'
+            
+            // Remove KaTeX delimiters for comparison
+            normalized = normalized.replace(/[\$]/g, ''); 
             
             return normalized;
         }
@@ -336,7 +340,6 @@
                 // Use a separate div for the question text to allow KaTeX rendering
                 const textDiv = document.createElement('div');
                 textDiv.className = 'font-bold text-gray-800 mb-3';
-                // We trust the question text already has the index number from the array data
                 textDiv.innerHTML = q.text;
 
                 questionDiv.appendChild(textDiv);
@@ -344,16 +347,25 @@
                 if (q.type === 'multiple-choice') {
                     const optionsDiv = document.createElement('div');
                     optionsDiv.className = 'space-y-2 ml-4';
-                    // Do not shuffle the options for a test environment to maintain consistency
+                    
                     q.options.forEach(option => {
                         const label = document.createElement('label');
                         label.className = 'flex items-center space-x-2 text-gray-700 cursor-pointer hover:bg-indigo-50 p-2 rounded-md transition';
                         
-                        // Use a non-math span for the option text to keep the radio button functional
-                        label.innerHTML = `
-                            <input type="radio" name="question${qIndex}" value="${option}" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4" data-q-index="${qIndex}">
-                            <span class="text-base">${option}</span>
-                        `;
+                        // Create the span and let KaTeX render it after insertion
+                        const optionSpan = document.createElement('span');
+                        optionSpan.className = 'text-base';
+                        optionSpan.innerHTML = option;
+
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.name = `question${qIndex}`;
+                        input.value = option;
+                        input.className = 'text-indigo-600 focus:ring-indigo-500 h-4 w-4';
+                        input.setAttribute('data-q-index', qIndex);
+
+                        label.appendChild(input);
+                        label.appendChild(optionSpan);
                         optionsDiv.appendChild(label);
                     });
                     questionDiv.appendChild(optionsDiv);
@@ -399,7 +411,7 @@
                     const selected = document.querySelector(`input[name="question${qIndex}"]:checked`);
                     if (selected) {
                         userAnswer = selected.value;
-                        isCorrect = (userAnswer === q.answer);
+                        isCorrect = checkTextAnswer(userAnswer, q.answer);
                     }
                 } else if (q.type === 'text') {
                     const input = document.querySelector(`input[data-q-index="${qIndex}"]`);
@@ -423,7 +435,7 @@
                     // Show correct answer for wrong answers
                     const feedback = document.createElement('p');
                     feedback.className = 'mt-2 text-sm font-semibold text-red-700 feedback';
-                    // KaTeX rendering for the answer display to match the question style
+                    // The answer text is wrapped in $$, relying on auto-render to pick it up
                     feedback.innerHTML = `Falsch. Die richtige Antwort (oder eine äquivalente Form) ist: <span class="text-green-700 font-bold">$$${q.answer}$$</span>`;
                     questionElement.appendChild(feedback);
 
