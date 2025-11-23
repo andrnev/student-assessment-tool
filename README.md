@@ -1,2 +1,0 @@
-# student-assessment-tool
-MatheArbeit
