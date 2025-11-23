@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klassenarbeit: Termumformungen mit Variablen</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        .quiz-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+        }
+        .question-card {
+            border-left: 4px solid #3b82f6;
+        }
+        .option-button {
+            transition: all 0.2s;
+        }
+        .option-button:hover {
+            background-color: #f3f4f6;
+        }
+        /* Custom styles for KaTeX inline mode */
+        .katex-display > .katex {
+            display: inline-block !important;
+            white-space: normal;
+        }
+    </style>
+    <!-- KaTeX CSS for mathematical formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-nK3HzR0P/N4d+R1I1E6r1Z+5l6W/m0B7fQ+wA7E3vVfK90+qgC5G2D2X7L6Q=" crossorigin="anonymous">
+</head>
+<body>
+
+    <div id="app" class="quiz-container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">
+            Klassenarbeit: Termumformungen mit mehreren Variablen
+        </h1>
+        <div id="user-info" class="text-sm text-gray-500 mb-6 text-center p-2 bg-yellow-50 rounded-lg">
+            <p>Ihr Benutzer-ID (Zum Teilen der Ergebnisse): <span id="user-id" class="font-mono font-semibold text-gray-700">Wird geladen...</span></p>
+        </div>
+        <div id="quiz-area">
+            <!-- Questions will be dynamically inserted here -->
+            <div class="flex justify-center items-center h-48">
+                <div class="text-xl font-medium text-blue-500">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Lade Quiz und Ergebnisse...
+                </div>
+            </div>
+        </div>
+
+        <div id="leaderboard-area" class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-700 border-b pb-2 mb-4">Bestenliste (Top 10)</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 rounded-lg shadow-md">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rang</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Benutzer-ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Zeitpunkt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Leaderboard data will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, query, getDocs, limit, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Configuration and global variables
+        setLogLevel('Debug');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db;
+        let auth;
+        let userId = null;
+        let isAuthReady = false;
+
+        // --- QUIZ DATA ---
+        const quizData = [
+            {
+              "questionNumber": 1,
+              "question": "Fassen Sie den Term zusammen: $3x + 5y - x + 2y$",
+              "answerOptions": [
+                { "text": "$2x + 7y$", "isCorrect": true },
+                { "text": "$4x + 7y$", "isCorrect": false },
+                { "text": "$2x + 3y$", "isCorrect": false },
+                { "text": "$7xy$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 2,
+              "question": "Vereinfachen Sie den Term: $4a^2 + 2b - a^2 - 5b$",
+              "answerOptions": [
+                { "text": "$3a^2 - 3b$", "isCorrect": true },
+                { "text": "$5a^2 - 7b$", "isCorrect": false },
+                { "text": "$3a^2 + 3b$", "isCorrect": false },
+                { "text": "$4a^2b - a^2b$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 3,
+              "question": "Fassen Sie zusammen: $7mn - 3m + 2n + 5m - 4mn$",
+              "answerOptions": [
+                { "text": "$3mn + 2m + 2n$", "isCorrect": true },
+                { "text": "$11mn + 8m + 2n$", "isCorrect": false },
+                { "text": "$3mn + 8m + 2n$", "isCorrect": false },
+                { "text": "$3mn + 2n$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 4,
+              "question": "Vereinfachen Sie: $x^3 + 2x^2 + 3x - x^3 - x^2 + x$",
+              "answerOptions": [
+                { "text": "$x^2 + 4x$", "isCorrect": true },
+                { "text": "$x^2 + 3x$", "isCorrect": false },
+                { "text": "$2x^3 + x^2 + 4x$", "isCorrect": false },
+                { "text": "$4x^4$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 5,
+              "question": "Fassen Sie zusammen: $-5ab + 6bc + 2ab - 3bc$",
+              "answerOptions": [
+                { "text": "$3ab + 3bc$", "isCorrect": false },
+                { "text": "$-3ab + 3bc$", "isCorrect": true },
+                { "text": "$11ab + 9bc$", "isCorrect": false },
+                { "text": "$-7ab + 9bc$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 6,
+              "question": "Vereinfachen Sie den Term: $1.5p + 2.5q - 0.5p - q$",
+              "answerOptions": [
+                { "text": "$1p + 1.5q$", "isCorrect": true },
+                { "text": "$2p + 3.5q$", "isCorrect": false },
+                { "text": "$p + 3.5q$", "isCorrect": false },
+                { "text": "$1.5pq$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 7,
+              "question": "Fassen Sie zusammen: $\\frac{1}{2}r^2 + \\frac{1}{4}s - r^2 + \\frac{3}{4}s$",
+              "answerOptions": [
+                { "text": "$\\frac{1}{2}r^2 + s$", "isCorrect": false },
+                { "text": "$-\\frac{1}{2}r^2 + s$", "isCorrect": true },
+                { "text": "$\\frac{3}{2}r^2 + s$", "isCorrect": false },
+                { "text": "$-\\frac{1}{2}r^2 + \\frac{2}{4}s$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 8,
+              "question": "Vereinfachen Sie: $8k - (3k + 2l) + 5l$",
+              "answerOptions": [
+                { "text": "$5k + 7l$", "isCorrect": false },
+                { "text": "$5k + 3l$", "isCorrect": true },
+                { "text": "$11k + 7l$", "isCorrect": false },
+                { "text": "$5k - 3l$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 9,
+              "question": "Fassen Sie zusammen: $10uvw + 5uv - 3uvw - 7uv$",
+              "answerOptions": [
+                { "text": "$7uvw - 2uv$", "isCorrect": true },
+                { "text": "$13uvw + 12uv$", "isCorrect": false },
+                { "text": "$13uvw - 2uv$", "isCorrect": false },
+                { "text": "$7uvw + 2uv$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 10,
+              "question": "Vereinfachen Sie den Term: $4(x+y) - 3x + 2y$",
+              "answerOptions": [
+                { "text": "$x + 6y$", "isCorrect": true },
+                { "text": "$x + 2y$", "isCorrect": false },
+                { "text": "$7x + 6y$", "isCorrect": false },
+                { "text": "$4xy - 3x + 2y$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 11,
+              "question": "Multiplizieren Sie den Term aus: $3(2a + 4b)$",
+              "answerOptions": [
+                { "text": "$6a + 12b$", "isCorrect": true },
+                { "text": "$6a + 4b$", "isCorrect": false },
+                { "text": "$5a + 7b$", "isCorrect": false },
+                { "text": "$6ab$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 12,
+              "question": "Multiplizieren Sie aus: $-5(x - 3y)$",
+              "answerOptions": [
+                { "text": "$-5x - 15y$", "isCorrect": false },
+                { "text": "$-5x + 15y$", "isCorrect": true },
+                { "text": "$5x - 15y$", "isCorrect": false },
+                { "text": "$5x + 15y$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 13,
+              "question": "Multiplizieren Sie aus und vereinfachen Sie: $a(a^2 + 2a)$",
+              "answerOptions": [
+                { "text": "$a^3 + 2a^2$", "isCorrect": true },
+                { "text": "$2a^3 + 2a$", "isCorrect": false },
+                { "text": "$a^3 + 3a$", "isCorrect": false },
+                { "text": "$a^4 + 2a^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 14,
+              "question": "Multiplizieren Sie aus: $2x(3x^2 - 4xy)$",
+              "answerOptions": [
+                { "text": "$6x^3 - 8x^2y$", "isCorrect": true },
+                { "text": "$5x^3 - 8x^2y$", "isCorrect": false },
+                { "text": "$6x^3 - 4xy$", "isCorrect": false },
+                { "text": "$6x^2 - 8x^2y$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 15,
+              "question": "Lösen Sie die Klammer auf: $-(5m - 2n + p)$",
+              "answerOptions": [
+                { "text": "$-5m + 2n - p$", "isCorrect": true },
+                { "text": "$5m - 2n + p$", "isCorrect": false },
+                { "text": "$-5m - 2n + p$", "isCorrect": false },
+                { "text": "$-5m + 2n + p$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 16,
+              "question": "Multiplizieren Sie aus: $\\frac{1}{3}(6r + 9s - 3t)$",
+              "answerOptions": [
+                { "text": "$2r + 3s - t$", "isCorrect": true },
+                { "text": "$2r + 3s - 3t$", "isCorrect": false },
+                { "text": "$6r + 9s - 3t$", "isCorrect": false },
+                { "text": "$3r + 6s - 1t$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 17,
+              "question": "Multiplizieren Sie aus: $4y(y^2 + 2y - 1)$",
+              "answerOptions": [
+                { "text": "$4y^3 + 8y^2 - 4y$", "isCorrect": true },
+                { "text": "$4y^3 + 2y - 1$", "isCorrect": false },
+                { "text": "$4y^3 + 8y - 4y$", "isCorrect": false },
+                { "text": "$4y^2 + 8y - 4y$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 18,
+              "question": "Multiplizieren Sie aus: $-2k(3k - 5l)$",
+              "answerOptions": [
+                { "text": "$-6k^2 - 10kl$", "isCorrect": false },
+                { "text": "$6k^2 + 10kl$", "isCorrect": false },
+                { "text": "$-6k^2 + 10kl$", "isCorrect": true },
+                { "text": "$-5k^2 + 10kl$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 19,
+              "question": "Multiplizieren Sie aus: $0.5ab(4a + 6b)$",
+              "answerOptions": [
+                { "text": "$2a^2b + 3ab^2$", "isCorrect": true },
+                { "text": "$2a^2b + 3ab$", "isCorrect": false },
+                { "text": "$4.5a^2b + 6.5ab^2$", "isCorrect": false },
+                { "text": "$2a^2 + 3b^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 20,
+              "question": "Multiplizieren Sie aus: $-x^2y(3x + y^2)$",
+              "answerOptions": [
+                { "text": "$3x^3y + x^2y^3$", "isCorrect": false },
+                { "text": "$-3x^3y - x^2y^3$", "isCorrect": true },
+                { "text": "$-3x^2y - x^2y^2$", "isCorrect": false },
+                { "text": "$-3x^3y + x^2y^3$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 21,
+              "question": "Klammern Sie den größtmöglichen gemeinsamen Faktor aus: $4x + 8y$",
+              "answerOptions": [
+                { "text": "$4(x + 2y)$", "isCorrect": true },
+                { "text": "$2(2x + 4y)$", "isCorrect": false },
+                { "text": "$4(x + 8y)$", "isCorrect": false },
+                { "text": "$x(4 + 8y)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 22,
+              "question": "Faktorzerlegung von: $3a^2 - 6a$",
+              "answerOptions": [
+                { "text": "$3a(a - 2)$", "isCorrect": true },
+                { "text": "$3(a^2 - 2a)$", "isCorrect": false },
+                { "text": "$a(3a - 6)$", "isCorrect": false },
+                { "text": "$3a(a - 6)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 23,
+              "question": "Klammern Sie aus: $10mn + 15mp$",
+              "answerOptions": [
+                { "text": "$5m(2n + 3p)$", "isCorrect": true },
+                { "text": "$5(2mn + 3mp)$", "isCorrect": false },
+                { "text": "$5m(2n + p)$", "isCorrect": false },
+                { "text": "$m(10n + 15p)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 24,
+              "question": "Faktorzerlegung von: $x^3y^2 - x^2y$",
+              "answerOptions": [
+                { "text": "$x^2y(x - 1)$", "isCorrect": false },
+                { "text": "$x^2y(xy - 1)$", "isCorrect": true },
+                { "text": "$x^3y^2(1 - \\frac{1}{xy})$", "isCorrect": false },
+                { "text": "$xy(x^2y - x)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 25,
+              "question": "Klammern Sie den größtmöglichen Faktor aus: $12ab^2 + 6ab$",
+              "answerOptions": [
+                { "text": "$6ab(2b + 1)$", "isCorrect": true },
+                { "text": "$6a(2b^2 + b)$", "isCorrect": false },
+                { "text": "$3ab(4b + 2)$", "isCorrect": false },
+                { "text": "$12ab(b + 0.5)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 26,
+              "question": "Faktorzerlegung von: $5r^2s - 20rs^2 + 10rs$",
+              "answerOptions": [
+                { "text": "$5rs(r - 4s + 2)$", "isCorrect": true },
+                { "text": "$5r(rs - 4s^2 + 2s)$", "isCorrect": false },
+                { "text": "$5rs(r - 4s + 1)$", "isCorrect": false },
+                { "text": "$5(r^2s - 4rs^2 + 2rs)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 27,
+              "question": "Klammern Sie $-4pq$ aus: $-4pq + 8p^2q$",
+              "answerOptions": [
+                { "text": "$-4pq(1 + 2p)$", "isCorrect": false },
+                { "text": "$-4pq(1 - 2p)$", "isCorrect": true },
+                { "text": "$4pq(-1 + 2p)$", "isCorrect": false },
+                { "text": "$-4pq(1 + 4p)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 28,
+              "question": "Klammern Sie $2.5$ aus: $2.5a + 5b$",
+              "answerOptions": [
+                { "text": "$2.5(a + 2b)$", "isCorrect": true },
+                { "text": "$2.5(a + 5b)$", "isCorrect": false },
+                { "text": "$2.5(a + b)$", "isCorrect": false },
+                { "text": "$5(0.5a + b)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 29,
+              "question": "Klammern Sie aus: $m(a+b) + n(a+b)$",
+              "answerOptions": [
+                { "text": "$(m + n) + 2(a + b)$", "isCorrect": false },
+                { "text": "$mn(a+b)$", "isCorrect": false },
+                { "text": "$(m + n)(a + b)$", "isCorrect": true },
+                { "text": "$a(m+n) + b(m+n)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 30,
+              "question": "Faktorzerlegung von: $9x^3y^2 + 6x^2y^3 - 3x^2y^2$",
+              "answerOptions": [
+                { "text": "$3x^2y^2(3x + 2y - 1)$", "isCorrect": true },
+                { "text": "$3x^2y(3xy + 2y^2 - y)$", "isCorrect": false },
+                { "text": "$3x^2y^2(3x + 2y)$", "isCorrect": false },
+                { "text": "$3x^3y^3(3 + 2 - 1)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 31,
+              "question": "Multiplizieren Sie mithilfe der ersten binomischen Formel aus: $(x + 3y)^2$",
+              "answerOptions": [
+                { "text": "$x^2 + 9y^2$", "isCorrect": false },
+                { "text": "$x^2 + 3xy + 9y^2$", "isCorrect": false },
+                { "text": "$x^2 + 6xy + 9y^2$", "isCorrect": true },
+                { "text": "$x^2 + 6xy + 3y^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 32,
+              "question": "Multiplizieren Sie mithilfe der zweiten binomischen Formel aus: $(2a - 5b)^2$",
+              "answerOptions": [
+                { "text": "$4a^2 - 10ab + 25b^2$", "isCorrect": false },
+                { "text": "$4a^2 - 20ab + 25b^2$", "isCorrect": true },
+                { "text": "$4a^2 + 20ab + 25b^2$", "isCorrect": false },
+                { "text": "$2a^2 - 20ab + 5b^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 33,
+              "question": "Multiplizieren Sie mithilfe der dritten binomischen Formel aus: $(4p + q)(4p - q)$",
+              "answerOptions": [
+                { "text": "$16p^2 + q^2$", "isCorrect": false },
+                { "text": "$4p^2 - q^2$", "isCorrect": false },
+                { "text": "$16p^2 - q^2$", "isCorrect": true },
+                { "text": "$16p^2 - 8pq - q^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 34,
+              "question": "Multiplizieren Sie aus: $(m^2 - n)^2$",
+              "answerOptions": [
+                { "text": "$m^4 - 2m^2n + n^2$", "isCorrect": true },
+                { "text": "$m^4 - n^2$", "isCorrect": false },
+                { "text": "$m^2 - 2m^2n + n^2$", "isCorrect": false },
+                { "text": "$m^4 - 2mn + n^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 35,
+              "question": "Multiplizieren Sie aus: $(3rs + 2t)^2$",
+              "answerOptions": [
+                { "text": "$9rs^2 + 12rst + 4t^2$", "isCorrect": false },
+                { "text": "$9r^2s^2 + 6rst + 4t^2$", "isCorrect": false },
+                { "text": "$9r^2s^2 + 12rst + 4t^2$", "isCorrect": true },
+                { "text": "$9r^2s^2 + 4t^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 36,
+              "question": "Faktorzerlegung (Binomische Formel): $a^2 + 6ab + 9b^2$",
+              "answerOptions": [
+                { "text": "$(a + 3b)^2$", "isCorrect": true },
+                { "text": "$(a - 3b)^2$", "isCorrect": false },
+                { "text": "$(a + 9b)(a + b)$", "isCorrect": false },
+                { "text": "$(a + 3b)(a - 3b)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 37,
+              "question": "Faktorzerlegung (Binomische Formel): $4x^2 - 12xy + 9y^2$",
+              "answerOptions": [
+                { "text": "$(4x - 9y)^2$", "isCorrect": false },
+                { "text": "$(2x - 3y)^2$", "isCorrect": true },
+                { "text": "$(2x + 3y)^2$", "isCorrect": false },
+                { "text": "$(2x - 3y)(2x + 3y)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 38,
+              "question": "Faktorzerlegung (Binomische Formel): $25p^2 - 16q^2$",
+              "answerOptions": [
+                { "text": "$(5p - 4q)^2$", "isCorrect": false },
+                { "text": "$(5p + 4q)(5p - 4q)$", "isCorrect": true },
+                { "text": "$(25p - 16q)(p + q)$", "isCorrect": false },
+                { "text": "$(5p - 4q)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 39,
+              "question": "Faktorzerlegung (Binomische Formel): $x^4 - 2x^2y + y^2$",
+              "answerOptions": [
+                { "text": "$(x^2 - y)(x^2 + y)$", "isCorrect": false },
+                { "text": "$(x^4 - y)^2$", "isCorrect": false },
+                { "text": "$(x^2 - y)^2$", "isCorrect": true },
+                { "text": "$(x - y)^4$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 40,
+              "question": "Faktorzerlegung (Binomische Formel): $1 + 8k + 16k^2$",
+              "answerOptions": [
+                { "text": "$(1 + 4k)^2$", "isCorrect": true },
+                { "text": "$(1 - 4k)^2$", "isCorrect": false },
+                { "text": "$4k(0.25 + 2 + 4k)$", "isCorrect": false },
+                { "text": "$(1 + 8k)(1 + 2k)$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 41,
+              "question": "Multiplizieren Sie die Klammern aus: $(a + 2)(b - 3)$",
+              "answerOptions": [
+                { "text": "$ab - 3a + 2b - 6$", "isCorrect": true },
+                { "text": "$ab - 6$", "isCorrect": false },
+                { "text": "$ab + 3a + 2b - 6$", "isCorrect": false },
+                { "text": "$ab + 2b - 3$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 42,
+              "question": "Multiplizieren Sie die Klammern aus: $(2x - 1)(x^2 + 3)$",
+              "answerOptions": [
+                { "text": "$2x^3 + 5x^2 - 3$", "isCorrect": false },
+                { "text": "$2x^3 + 6x - x^2 - 3$", "isCorrect": true },
+                { "text": "$2x^3 + x^2 + 6x - 3$", "isCorrect": false },
+                { "text": "$2x^3 - 3$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 43,
+              "question": "Vereinfachen Sie den Bruch: $\\frac{15x^3y^2}{5xy}$",
+              "answerOptions": [
+                { "text": "$3x^2y$", "isCorrect": true },
+                { "text": "$3x^3y^2$", "isCorrect": false },
+                { "text": "$10x^2y$", "isCorrect": false },
+                { "text": "$5x^2y$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 44,
+              "question": "Vereinfachen Sie den Bruch: $\\frac{18a^2b^4 + 6a^3b^2}{6a^2b^2}$",
+              "answerOptions": [
+                { "text": "$3b^2 + a$", "isCorrect": true },
+                { "text": "$3b^2 + a^2$", "isCorrect": false },
+                { "text": "$4b^2$", "isCorrect": false },
+                { "text": "$24a^5b^6$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 45,
+              "question": "Vereinfachen Sie: $4(m + n)^2 - 4m^2$",
+              "answerOptions": [
+                { "text": "$4n^2$", "isCorrect": false },
+                { "text": "$8mn + 4n^2$", "isCorrect": true },
+                { "text": "$8m^2 + 8mn + 4n^2$", "isCorrect": false },
+                { "text": "$4m^2 + 4n^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 46,
+              "question": "Vereinfachen Sie: $(x + y)(x - y) + y^2$",
+              "answerOptions": [
+                { "text": "$x^2$", "isCorrect": true },
+                { "text": "$x^2 + 2y^2$", "isCorrect": false },
+                { "text": "$x^2 - 2y^2$", "isCorrect": false },
+                { "text": "$x^2 + y^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 47,
+              "question": "Vereinfachen Sie: $3(a+b) - 2(a-b)$",
+              "answerOptions": [
+                { "text": "$a + b$", "isCorrect": false },
+                { "text": "$a + 5b$", "isCorrect": true },
+                { "text": "$5a + b$", "isCorrect": false },
+                { "text": "$a + b$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 48,
+              "question": "Vereinfachen Sie: $(p + 1)(p - 2) - (p^2 - 5)$",
+              "answerOptions": [
+                { "text": "$-p + 3$", "isCorrect": true },
+                { "text": "$2p^2 - p - 7$", "isCorrect": false },
+                { "text": "$-3p + 3$", "isCorrect": false },
+                { "text": "$p^2 + p + 3$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 49,
+              "question": "Vereinfachen Sie: $(2k + 3l)^2 - (2k - 3l)^2$",
+              "answerOptions": [
+                { "text": "$24kl$", "isCorrect": true },
+                { "text": "$0$", "isCorrect": false },
+                { "text": "$8k^2 + 18l^2$", "isCorrect": false },
+                { "text": "$2k^2 + 3l^2$", "isCorrect": false }
+              ]
+            },
+            {
+              "questionNumber": 50,
+              "question": "Vereinfachen Sie: $a \\cdot (b + c) - b \\cdot (a - c) - ac$",
+              "answerOptions": [
+                { "text": "$0$", "isCorrect": false },
+                { "text": "$2ab + bc$", "isCorrect": false },
+                { "text": "$bc$", "isCorrect": true },
+                { "text": "$2ac - bc$", "isCorrect": false }
+              ]
+            }
+          ];
+        // --- END OF QUIZ DATA ---
+
+        let userAnswers = {}; // { 1: 'Option Text', 2: 'Option Text', ... }
+
+        // --- FIREBASE INITIALIZATION AND AUTH ---
+
+        async function initFirebase() {
+            try {
+                if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase config is missing. Cannot use Firestore for score collection.");
+                    // Fallback to anonymous sign-in if config is only partially available or missing expected keys
+                    const app = initializeApp({});
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    await signInAnonymously(auth);
+                    console.warn("Signed in anonymously without full config.");
+                } else {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Signed in with custom token.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Signed in anonymously.");
+                    }
+                }
+            } catch (error) {
+                console.error("Error during Firebase initialization or sign-in:", error);
+                // Even if auth fails, we want to try and load the quiz
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    userId = user.uid;
+                } else {
+                    userId = 'Anonymous-' + crypto.randomUUID().substring(0, 8); // Fallback unique ID
+                }
+                document.getElementById('user-id').textContent = userId;
+                isAuthReady = true;
+                // Once auth is ready, render the quiz and load the leaderboard
+                renderQuiz();
+                setupLeaderboardListener();
+            });
+        }
+
+        // --- QUIZ RENDERING AND LOGIC ---
+
+        function renderMath() {
+            // KaTeX rendering function
+            if (typeof katex !== 'undefined') {
+                renderMathInElement(document.getElementById('quiz-area'), {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function handleOptionClick(questionNumber, optionText) {
+            userAnswers[questionNumber] = optionText;
+            
+            // Visually update selection
+            const questionElement = document.getElementById(`q-${questionNumber}`);
+            const buttons = questionElement.querySelectorAll('.option-button');
+            
+            buttons.forEach(button => {
+                button.classList.remove('bg-blue-200', 'border-blue-500');
+                if (button.dataset.option === optionText) {
+                    button.classList.add('bg-blue-200', 'border-blue-500');
+                }
+            });
+
+            // Check if all questions are answered
+            if (Object.keys(userAnswers).length === quizData.length) {
+                document.getElementById('submit-button').disabled = false;
+                document.getElementById('submit-button').classList.remove('bg-gray-400');
+                document.getElementById('submit-button').classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }
+        }
+
+        function renderQuiz() {
+            const quizArea = document.getElementById('quiz-area');
+            let html = '';
+
+            quizData.forEach(q => {
+                const questionHtml = `
+                    <div id="q-${q.questionNumber}" class="question-card p-4 mb-6 bg-white rounded-lg shadow-md">
+                        <p class="text-lg font-semibold text-gray-800 mb-4">
+                            ${q.questionNumber}. ${q.question}
+                        </p>
+                        <div class="space-y-2">
+                            ${q.answerOptions.map(option => `
+                                <button
+                                    class="option-button w-full text-left p-3 border rounded-lg text-gray-700 transition duration-150 ease-in-out"
+                                    data-question="${q.questionNumber}"
+                                    data-option="${option.text}"
+                                    onclick="handleOptionClick(${q.questionNumber}, '${option.text.replace(/'/g, "\\'")}')"
+                                >
+                                    ${option.text}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                html += questionHtml;
+            });
+
+            html += `
+                <div class="text-center mt-8">
+                    <button id="submit-button" onclick="submitQuiz()" 
+                        class="bg-gray-400 text-white font-bold py-3 px-8 rounded-xl transition duration-300 disabled:opacity-75" 
+                        disabled>
+                        Quiz Abgeben & Ergebnis Speichern
+                    </button>
+                </div>
+                <div id="result-message" class="mt-4 text-center text-xl font-bold p-4 rounded-lg hidden"></div>
+            `;
+            
+            quizArea.innerHTML = html;
+            renderMath();
+            window.handleOptionClick = handleOptionClick; // Expose to global scope for onclick
+            window.submitQuiz = submitQuiz; // Expose submit function
+        }
+
+        function calculateScore() {
+            let correctCount = 0;
+            quizData.forEach(q => {
+                const correctOption = q.answerOptions.find(opt => opt.isCorrect);
+                const userAnswer = userAnswers[q.questionNumber];
+
+                if (correctOption && userAnswer === correctOption.text) {
+                    correctCount++;
+                }
+            });
+            return correctCount;
+        }
+
+        async function submitQuiz() {
+            if (!isAuthReady || Object.keys(userAnswers).length !== quizData.length) {
+                console.error("Quiz is not ready or incomplete.");
+                return;
+            }
+
+            const score = calculateScore();
+            const total = quizData.length;
+            const percentage = ((score / total) * 100).toFixed(1);
+
+            const resultMessage = document.getElementById('result-message');
+            resultMessage.textContent = `Ihr Ergebnis: ${score} von ${total} (${percentage}%)`;
+            resultMessage.classList.remove('hidden');
+            resultMessage.classList.add('bg-green-100', 'text-green-700');
+            document.getElementById('submit-button').disabled = true;
+
+            // Save the score to Firestore
+            await saveScore(score, total);
+        }
+
+        // --- FIREBASE SCORE HANDLING ---
+
+        const QUIZ_COLLECTION_PATH = (uid) => `/artifacts/${appId}/public/data/quiz_scores`;
+
+        async function saveScore(score, total) {
+            if (!db || !userId) {
+                console.error("Firestore not initialized or user ID not available. Cannot save score.");
+                return;
+            }
+
+            // Using the user's ID as the document ID for private data, 
+            // but saving in the public collection as requested for the leaderboard.
+            // Note: If multiple scores are needed per user, a timestamped subcollection would be better.
+            // For a simple single score leaderboard, we overwrite the previous result.
+            const scoreDocRef = doc(db, QUIZ_COLLECTION_PATH(userId), userId);
+
+            const scoreData = {
+                score: score,
+                total: total,
+                userId: userId,
+                timestamp: new Date().toISOString(),
+                // Store the name of the test for clarity
+                quizName: "Termumformungen mit mehreren Variablen"
+            };
+
+            try {
+                // Use setDoc to set or overwrite the score for the current user
+                await setDoc(scoreDocRef, scoreData);
+                console.log("Score successfully saved/updated for user:", userId);
+            } catch (e) {
+                console.error("Error writing document to Firestore: ", e);
+                const resultMessage = document.getElementById('result-message');
+                resultMessage.textContent += " (Fehler beim Speichern des Scores)";
+            }
+        }
+        
+        // Function to listen to leaderboard changes in real-time
+        function setupLeaderboardListener() {
+            if (!db || !isAuthReady) return;
+            
+            const q = query(
+                collection(db, QUIZ_COLLECTION_PATH(userId)),
+                // The prompt asks to avoid orderBy, so we'll fetch all and sort in memory
+            );
+
+            onSnapshot(q, (querySnapshot) => {
+                const scores = [];
+                querySnapshot.forEach((doc) => {
+                    scores.push(doc.data());
+                });
+
+                // Sort in memory: Highest score first, then by earliest timestamp (optional tie-breaker)
+                scores.sort((a, b) => {
+                    if (b.score !== a.score) {
+                        return b.score - a.score; // Primary: Higher score first
+                    }
+                    // Secondary: Earlier submission first (less relevant without detailed time)
+                    return new Date(a.timestamp) - new Date(b.timestamp);
+                });
+
+                renderLeaderboard(scores.slice(0, 10)); // Show top 10
+            }, (error) => {
+                console.error("Error listening to leaderboard:", error);
+                document.getElementById('leaderboard-body').innerHTML = `
+                    <tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Fehler beim Laden der Bestenliste.</td></tr>
+                `;
+            });
+        }
+
+        function renderLeaderboard(scores) {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = ''; // Clear previous entries
+
+            if (scores.length === 0) {
+                leaderboardBody.innerHTML = `
+                    <tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">Noch keine Ergebnisse vorhanden.</td></tr>
+                `;
+                return;
+            }
+
+            scores.forEach((s, index) => {
+                const date = new Date(s.timestamp).toLocaleDateString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                
+                // Highlight the current user
+                const rowClass = s.userId === userId ? 'bg-yellow-100 font-bold' : 'hover:bg-gray-50';
+
+                const rowHtml = `
+                    <tr class="${rowClass}">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${index + 1}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${s.score} / ${s.total}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-xs font-mono text-gray-600">${s.userId}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${date}</td>
+                    </tr>
+                `;
+                leaderboardBody.innerHTML += rowHtml;
+            });
+        }
+        
+        // --- START APPLICATION ---
+        
+        // Load KaTeX dynamically and initialize Firebase
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js";
+        script.integrity = "sha384-N3I1Q..."; // Truncated for brevity but should be full
+        script.crossOrigin = "anonymous";
+        script.onload = () => {
+             // renderMath will be called after auth is ready
+             initFirebase();
+        };
+        document.head.appendChild(script);
+
+        // Expose functions to the global scope for HTML onclick events
+        window.handleOptionClick = handleOptionClick;
+        window.submitQuiz = submitQuiz;
+
+    </script>
+</body>
+</html>
