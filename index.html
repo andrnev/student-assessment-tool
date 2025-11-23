@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klassenarbeit Mathematik Termumformungen (50 Fragen)</title>
+    <title>Klassenarbeit Mathematik Termumformungen (50 Aufgaben)</title>
     <!-- Tailwind CSS for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -66,7 +66,7 @@
     <div class="container">
         <header class="text-center mb-10">
             <h1 class="text-4xl font-extrabold text-indigo-800">Klassenarbeit: Termumformungen (50 Aufgaben)</h1>
-            <p class="text-lg text-gray-600 mt-2">Thema: Terme vereinfachen, Faktorisieren, Binomische Formeln (Klasse 8).</p>
+            <p class="text-lg text-gray-600 mt-2">Thema: Vereinfachen, Ausmultiplizieren, Faktorisieren, Komplexe Terme (Klasse 8).</p>
         </header>
 
         <!-- Quiz Section -->
@@ -123,95 +123,88 @@
     <script>
         // --- QUIZ DATA (Termumformungen Klasse 8) ---
         const questions = [
-            // --- KATEGORIE 1: Vereinfachung (Zusammenfassen) (1-10) ---
-            { text: "1. Vereinfachen Sie: $$ 5x + 3y - 2x + 7y $$", type: "text", answer: "3x + 10y" },
-            { text: "2. Vereinfachen Sie: $$ 12a - 5b + a + 8b $$", type: "text", answer: "13a + 3b" },
-            { text: "3. Vereinfachen Sie: $$ p^2 + 3p - 4p^2 - p $$", type: "text", answer: "-3p^2 + 2p" },
-            { text: "4. Vereinfachen Sie: $$ 7mn - 2m - 5mn + 4m $$", type: "text", answer: "2mn + 2m" },
-            { text: "5. Vereinfachen Sie: $$ 10k + 3l + 5 - 2k - 8l $$", type: "text", answer: "8k - 5l + 5" },
-            { text: "6. Vereinfachen Sie: $$ 4x^2y + 5xy^2 - 2x^2y - xy^2 $$", type: "text", answer: "2x^2y + 4xy^2" },
-            { text: "7. Vereinfachen Sie: $$ 1.5r - 0.5s + 3.5s - 0.5r $$", type: "text", answer: "r + 3s" },
-            { text: "8. Vereinfachen Sie: $$ -(3a + 4b) + 5a - b $$", type: "text", answer: "2a - 5b" },
-            { text: "9. Vereinfachen Sie: $$ 2c^3 + 4c^2 - 3c^3 - 4c^2 $$", type: "text", answer: "-c^3" },
-            { text: "10. Vereinfachen Sie: $$ 6gh + 2h^2 - 3gh - 2h^2 + g $$", type: "text", answer: "3gh + g" },
+            // --- KATEGORIE 1: Zusammenfassen (Vereinfachung) (1-13) ---
+            { text: "1. Vereinfachen Sie: $$ 8a + 5b - 3a - 2b $$", type: "text", answer: "5a + 3b" },
+            { text: "2. Vereinfachen Sie: $$ 15x^2 - 7x + 3x^2 + x $$", type: "text", answer: "18x^2 - 6x" },
+            { text: "3. Vereinfachen Sie: $$ -4y + 10z - 6y - 12z $$", type: "text", answer: "-10y - 2z" },
+            { text: "4. Vereinfachen Sie: $$ 2.5r + 1.5s - r + 0.5s $$", type: "text", answer: "1.5r + 2s" },
+            { text: "5. Vereinfachen Sie: $$ 6mn + 3n - 9mn - 5n $$", type: "text", answer: "-3mn - 2n" },
+            { text: "6. Vereinfachen Sie: $$ 10k^3 - 4k^2 + 2k^3 + 4k^2 $$", type: "text", answer: "12k^3" },
+            { text: "7. Vereinfachen Sie: $$ 7c - (2c + 5d) + 3d $$", type: "text", answer: "5c - 2d" },
+            { text: "8. Vereinfachen Sie: $$ a^2b - 5ab^2 + 3a^2b + 6ab^2 $$", type: "text", answer: "4a^2b + ab^2" },
+            { text: "9. Vereinfachen Sie: $$ 1 + 2x + 3y - x + 4 $$", type: "text", answer: "x + 3y + 5" },
+            { text: "10. Vereinfachen Sie: $$ 0.2p - 0.8q + p - 0.2q $$", type: "text", answer: "1.2p - q" },
+            { text: "11. Vereinfachen Sie: $$ -(m + n) + 2m - 3n $$", type: "text", answer: "m - 4n" },
+            { 
+                text: "12. Vereinfachen Sie: $$ \\frac{1}{2}x + \\frac{3}{4}x - 2y $$", 
+                type: "multiple-choice",
+                options: ["x - 2y", "\\frac{4}{6}x - 2y", "\\frac{5}{4}x - 2y", "1.5x - 2y"],
+                answer: "\\frac{5}{4}x - 2y" 
+            },
+            { text: "13. Vereinfachen Sie: $$ 13g - 2g^2 + 5g^2 - 13g $$", type: "text", answer: "3g^2" },
 
-            // --- KATEGORIE 2: Ausmultiplizieren (Distributivgesetz) (11-20) ---
-            { text: "11. Multiplizieren Sie aus: $$ 3(4x - 5y) $$", type: "text", answer: "12x - 15y" },
-            { text: "12. Multiplizieren Sie aus: $$ -2(a + 3b) $$", type: "text", answer: "-2a - 6b" },
-            { text: "13. Multiplizieren Sie aus: $$ x(x^2 - 4x) $$", type: "text", answer: "x^3 - 4x^2" },
-            { text: "14. Multiplizieren Sie aus: $$ -5(3m + 2n - 1) $$", type: "text", answer: "-15m - 10n + 5" },
-            { text: "15. Multiplizieren Sie aus: $$ (2p - 7q) \cdot 6 $$", type: "text", answer: "12p - 42q" },
-            { text: "16. Multiplizieren Sie aus: $$ y(3x + 4y) $$", type: "text", answer: "3xy + 4y^2" },
-            { text: "17. Multiplizieren Sie aus: $$ -0.5(8k + 2l) $$", type: "text", answer: "-4k - l" },
-            { text: "18. Multiplizieren Sie aus: $$ a^2(3b - 2a) $$", type: "text", answer: "3a^2b - 2a^3" },
-            { text: "19. Multiplizieren Sie aus: $$ (m - n) \cdot (-4) $$", type: "text", answer: "-4m + 4n" },
-            { text: "20. Vereinfachen Sie: $$ 3(r^2 + 2r) + r $$", type: "text", answer: "3r^2 + 7r" },
-            
-            // --- KATEGORIE 3: Faktorisieren (Ausklammern) (21-30) ---
-            { text: "21. Klammern Sie den größten gemeinsamen Faktor aus: $$ 8a + 12b $$", type: "text", answer: "4(2a + 3b)" },
-            { text: "22. Klammern Sie den größten gemeinsamen Faktor aus: $$ 15x^2 - 5x $$", type: "text", answer: "5x(3x - 1)" },
-            { text: "23. Klammern Sie den größten gemeinsamen Faktor aus: $$ 10mn + 20m $$", type: "text", answer: "10m(n + 2)" },
-            { text: "24. Klammern Sie den größten gemeinsamen Faktor aus: $$ 18p^3 - 6p^2 $$", type: "text", answer: "6p^2(3p - 1)" },
+            // --- KATEGORIE 2: Ausmultiplizieren (Distributivgesetz) (14-25) ---
+            { text: "14. Multiplizieren Sie aus: $$ 4(3x - 2y) $$", type: "text", answer: "12x - 8y" },
+            { text: "15. Multiplizieren Sie aus: $$ -5(a + 6b) $$", type: "text", answer: "-5a - 30b" },
+            { text: "16. Multiplizieren Sie aus: $$ 2x(x^2 + 3x) $$", type: "text", answer: "2x^3 + 6x^2" },
+            { text: "17. Multiplizieren Sie aus: $$ -3(4m - 5n + 1) $$", type: "text", answer: "-12m + 15n - 3" },
+            { text: "18. Multiplizieren Sie aus: $$ y(-2x + 5y) $$", type: "text", answer: "-2xy + 5y^2" },
+            { text: "19. Multiplizieren Sie aus: $$ (7p - 8q) \\cdot \\frac{1}{2} $$", type: "text", answer: "3.5p - 4q" },
+            { text: "20. Multiplizieren Sie aus: $$ -a^2(3a - 4b) $$", type: "text", answer: "-3a^3 + 4a^2b" },
+            { text: "21. Multiplizieren Sie aus: $$ 10(0.3c + 0.7d) $$", type: "text", answer: "3c + 7d" },
             { 
-                text: "25. Klammern Sie den größten gemeinsamen Faktor aus: $$ 3xy + 6yz - 9xz $$", 
+                text: "22. Multiplizieren Sie aus: $$ -(2k - l + 3m) $$", 
                 type: "multiple-choice",
-                options: ["3(xy + 2yz - 3xz)", "3x(y + 2z - 3z)", "3y(x + 2z - 3x)", "3z(3xy + 6y - 9x)"],
-                answer: "3(xy + 2yz - 3xz)"
+                options: ["-2k - l - 3m", "2k + l - 3m", "-2k + l - 3m", "-2k - l + 3m"],
+                answer: "-2k + l - 3m"
             },
-            { text: "26. Klammern Sie den größten gemeinsamen Faktor aus: $$ a^4 + a^3 + a^2 $$", type: "text", answer: "a^2(a^2 + a + 1)" },
-            { text: "27. Klammern Sie den größten gemeinsamen Faktor aus: $$ 7k^2l - 14kl^2 $$", type: "text", answer: "7kl(k - 2l)" },
-            { text: "28. Klammern Sie den größten gemeinsamen Faktor aus: $$ 24r^2s^2 - 16r^2s $$", type: "text", answer: "8r^2s(3s - 2)" },
-            { text: "29. Klammern Sie den größten gemeinsamen Faktor aus: $$ 13c + 13d $$", type: "text", answer: "13(c + d)" },
-            { text: "30. Klammern Sie den größten gemeinsamen Faktor aus: $$ 0.5x + 1.5y $$", type: "text", answer: "0.5(x + 3y)" },
+            { text: "23. Multiplizieren Sie aus: $$ 4xy(2x - 3y) $$", type: "text", answer: "8x^2y - 12xy^2" },
+            { text: "24. Multiplizieren Sie aus: $$ (-2r + 5s) \\cdot (-3) $$", type: "text", answer: "6r - 15s" },
+            { text: "25. Multiplizieren Sie aus: $$ x^2y(x + y^2) $$", type: "text", answer: "x^3y + x^2y^3" },
 
-            // --- KATEGORIE 4: Binomische Formeln (Anwendung) (31-40) ---
-            { text: "31. Wenden Sie die 1. binomische Formel an: $$ (x + 3)^2 $$", type: "text", answer: "x^2 + 6x + 9" },
-            { text: "32. Wenden Sie die 2. binomische Formel an: $$ (a - 7)^2 $$", type: "text", answer: "a^2 - 14a + 49" },
+            // --- KATEGORIE 3: Faktorisieren (Ausklammern) (26-37) ---
+            { text: "26. Klammern Sie den größten gemeinsamen Faktor aus: $$ 6x + 9y $$", type: "text", answer: "3(2x + 3y)" },
+            { text: "27. Klammern Sie den größten gemeinsamen Faktor aus: $$ 20a^2 - 5a $$", type: "text", answer: "5a(4a - 1)" },
+            { text: "28. Klammern Sie den größten gemeinsamen Faktor aus: $$ 14mn - 7n $$", type: "text", answer: "7n(2m - 1)" },
+            { text: "29. Klammern Sie den größten gemeinsamen Faktor aus: $$ 4p^3 + 8p^2 - 2p $$", type: "text", answer: "2p(2p^2 + 4p - 1)" },
+            { text: "30. Klammern Sie den größten gemeinsamen Faktor aus: $$ 16k^2l^3 - 8k^3l^2 $$", type: "text", answer: "8k^2l^2(2l - k)" },
             { 
-                text: "33. Multiplizieren Sie aus: $$ (2m + 5)^2 $$", 
+                text: "31. Klammern Sie den größten gemeinsamen Faktor aus: $$ 12c + 12 $$", 
                 type: "multiple-choice",
-                options: ["2m^2 + 10m + 25", "4m^2 + 10m + 25", "4m^2 + 20m + 25", "4m^2 + 25"],
-                answer: "4m^2 + 20m + 25"
+                options: ["12c(1 + 1)", "12(c + 1)", "c(12 + 1)", "6(2c + 2)"],
+                answer: "12(c + 1)"
             },
-            { text: "34. Multiplizieren Sie aus: $$ (3b - 4c)^2 $$", type: "text", answer: "9b^2 - 24bc + 16c^2" },
-            { text: "35. Wenden Sie die 3. binomische Formel an: $$ (y + 6)(y - 6) $$", type: "text", answer: "y^2 - 36" },
-            { 
-                text: "36. Multiplizieren Sie aus: $$ (4k + 1)(4k - 1) $$", 
-                type: "multiple-choice",
-                options: ["16k^2 - 8k + 1", "16k^2 + 1", "16k^2 - 1", "4k^2 - 1"],
-                answer: "16k^2 - 1"
-            },
-            { text: "37. Multiplizieren Sie aus: $$ (10 - z)^2 $$", type: "text", answer: "100 - 20z + z^2" },
-            { text: "38. Wenden Sie die 1. binomische Formel an: $$ (0.5x + 2y)^2 $$", type: "text", answer: "0.25x^2 + 2xy + 4y^2" },
-            { text: "39. Multiplizieren Sie aus: $$ (r^2 - 9)(r^2 + 9) $$", type: "text", answer: "r^4 - 81" },
-            { text: "40. Multiplizieren Sie aus: $$ (-p - q)^2 $$", type: "text", answer: "p^2 + 2pq + q^2" },
+            { text: "32. Klammern Sie den größten gemeinsamen Faktor aus: $$ x^5 + x^4 - x^2 $$", type: "text", answer: "x^2(x^3 + x^2 - 1)" },
+            { text: "33. Klammern Sie den größten gemeinsamen Faktor aus: $$ 33ab + 11ac $$", type: "text", answer: "11a(3b + c)" },
+            { text: "34. Klammern Sie den größten gemeinsamen Faktor aus: $$ 0.6r + 1.2s $$", type: "text", answer: "0.6(r + 2s)" },
+            { text: "35. Klammern Sie den größten gemeinsamen Faktor aus: $$ -4y^2 + 16y $$", type: "text", answer: "-4y(y - 4)" },
+            { text: "36. Klammern Sie den größten gemeinsamen Faktor aus: $$ 25g^2h - 50gh^2 $$", type: "text", answer: "25gh(g - 2h)" },
+            { text: "37. Klammern Sie den größten gemeinsamen Faktor aus: $$ a(x+y) + b(x+y) $$", type: "text", answer: "(x+y)(a+b)" },
 
-            // --- KATEGORIE 5: Komplexe / Vermischte Terme (41-50) ---
-            { text: "41. Vereinfachen Sie: $$ (x+2)^2 - 4x $$", type: "text", answer: "x^2 + 4" },
+            // --- KATEGORIE 4: Komplexe / Vermischte Terme (inkl. Binome) (38-50) ---
+            { text: "38. Vereinfachen Sie: $$ 3(2x - 1) - 5x $$", type: "text", answer: "x - 3" },
+            { text: "39. Vereinfachen Sie: $$ 2(a + 3b) + 4(a - b) $$", type: "text", answer: "6a + 2b" },
+            { text: "40. Vereinfachen Sie: $$ (x + 4)^2 - x^2 $$", type: "text", answer: "8x + 16" }, // Binom
+            { text: "41. Vereinfachen Sie: $$ (3y - 2)(3y + 2) + 4 $$", type: "text", answer: "9y^2" }, // Binom
+            { text: "42. Vereinfachen Sie: $$ 5(m^2 - 2m) - 2(m^2 - 5m) $$", type: "text", answer: "3m^2" },
+            { text: "43. Vereinfachen Sie den Bruch: $$ \\frac{10k^3 + 5k^2}{5k} $$", type: "text", answer: "2k^2 + k" },
+            { text: "44. Vereinfachen Sie: $$ (c - 5)^2 - 25 $$", type: "text", answer: "c^2 - 10c" }, // Binom
             { 
-                text: "42. Vereinfachen Sie: $$ (a-b)^2 + 2ab $$", 
+                text: "45. Vereinfachen Sie: $$ r(r+1) - 2(r^2 + r) $$", 
                 type: "multiple-choice",
-                options: ["a^2 + 2ab + b^2", "a^2 - b^2", "a^2 + b^2", "a^2"],
-                answer: "a^2 + b^2"
+                options: ["-r^2 + r", "-r^2 - r", "r^2 - r", "-2r^2 - 2r"],
+                answer: "-r^2 - r"
             },
-            { text: "43. Vereinfachen Sie: $$ 2(3x + 1) + (x - 5) $$", type: "text", answer: "7x - 3" },
-            { text: "44. Vereinfachen Sie: $$ (m+3)(m-3) - m^2 $$", type: "text", answer: "-9" },
-            { text: "45. Vereinfachen Sie: $$ 5y - 2(y + 3) + 7 $$", type: "text", answer: "3y + 1" },
+            { text: "46. Vereinfachen Sie: $$ (x+y)(x-y) + y^2 $$", type: "text", answer: "x^2" }, // Binom
+            { text: "47. Vereinfachen Sie: $$ -(2a + 3b) - (a - 4b) $$", type: "text", answer: "-3a + b" },
+            { text: "48. Vereinfachen Sie: $$ 2a(3a - 4) - 3a(2a - 5) $$", type: "text", answer: "7a" },
+            { text: "49. Vereinfachen Sie den Bruch: $$ \\frac{6p^2q^4 - 3p^2q^2}{3p^2q} $$", type: "text", answer: "2q^3 - q" },
             { 
-                text: "46. Vereinfachen Sie: $$ p(p^2 - 3) + 3p $$", 
+                text: "50. Vereinfachen Sie: $$ (x+1)^2 - (x-1)^2 $$", 
                 type: "multiple-choice",
-                options: ["p^3 - 6p", "p^3", "p^3 + 6p", "p^3 - 9p"],
-                answer: "p^3"
-            },
-            { 
-                text: "47. Vereinfachen Sie: $$ (k + l)^2 - (k - l)^2 $$", 
-                type: "multiple-choice",
-                options: ["0", "2kl", "4kl", "2k^2 + 2l^2"],
-                answer: "4kl"
-            },
-            { text: "48. Vereinfachen Sie den Bruch: $$ \\frac{15a^4b^3}{3a^2b} $$", type: "text", answer: "5a^2b^2" },
-            { text: "49. Vereinfachen Sie: $$ x(x+1) + x(x-1) $$", type: "text", answer: "2x^2" },
-            { text: "50. Vereinfachen Sie: $$ (2c - 3d)(2c + 3d) + 9d^2 $$", type: "text", answer: "4c^2" }
+                options: ["0", "4x", "2x^2 + 2", "2x"],
+                answer: "4x"
+            } // Binom
         ];
 
         // --- LOCAL STORAGE & LEADERBOARD LOGIC (Unchanged, uses the same mechanism) ---
@@ -300,9 +293,6 @@
             );
             normalized = normalized.replace(/^1([a-z])/, (match, variable) => variable); // Handle leading '1x'
             
-            // 3. Simple algebraic order canonicalization (VERY complex, handle specific known correct/alternative forms)
-            // Example: "3x+10y" vs "10y+3x" - handled manually in checkTextAnswer for known cases.
-            
             return normalized;
         }
 
@@ -318,26 +308,19 @@
             // Reordering terms (e.g., 13a+3b vs 3b+13a)
             const parts = correctNormalized.match(/([+-]?[^+-]+)/g) || [correctNormalized];
             if (parts.length > 1) {
-                const reversedNormalized = parts.reverse().join('');
+                const reversedNormalized = parts.slice().reverse().join('');
                 if (userNormalized === reversedNormalized) return true;
             }
 
             // Reordering factors in multiplication (e.g., (A)(B) vs (B)(A))
-            if (correctAnswer.includes(')(')) {
-                // Extracts content inside parentheses: 4(2a+3b) -> 4, 2a+3b
-                const correctFactors = correctAnswer.match(/([a-zA-Z0-9.\-]+(?!\^))|(\([^)]+\))/g);
-                if (correctFactors && correctFactors.length > 1) {
-                    const altAnswer = correctFactors.reverse().join('');
-                    if (userNormalized === normalizeAnswer(altAnswer)) return true;
+            if (correctAnswer.includes(')(') || (correctAnswer.includes('(') && correctAnswer.includes(')'))) {
+                // Extracts content inside parentheses: 4(2a+3b) -> 4, 2a+3b. Not perfect, but handles most cases.
+                const factorMatch = correctNormalized.match(/([a-z0-9.]+|[a-z0-9.][\^][0-9]+|[\(][^\)]+[\)])/g);
+                if (factorMatch && factorMatch.length === 2) {
+                    const altAnswer = factorMatch.reverse().join('');
+                    if (userNormalized === altAnswer) return true;
                 }
             }
-            
-            // Handle (3m - 2n)(3m + 2n) vs (3m + 2n)(3m - 2n)
-            if (correctAnswer === "(3m - 2n)(3m + 2n)") {
-                const altAnswer = "(3m + 2n)(3m - 2n)"; 
-                if (userNormalized === normalizeAnswer(altAnswer)) return true;
-            }
-
 
             return false;
         }
@@ -366,6 +349,7 @@
                         const label = document.createElement('label');
                         label.className = 'flex items-center space-x-2 text-gray-700 cursor-pointer hover:bg-indigo-50 p-2 rounded-md transition';
                         
+                        // Use a non-math span for the option text to keep the radio button functional
                         label.innerHTML = `
                             <input type="radio" name="question${qIndex}" value="${option}" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4" data-q-index="${qIndex}">
                             <span class="text-base">${option}</span>
@@ -439,8 +423,19 @@
                     // Show correct answer for wrong answers
                     const feedback = document.createElement('p');
                     feedback.className = 'mt-2 text-sm font-semibold text-red-700 feedback';
-                    feedback.innerHTML = `Falsch. Die richtige Antwort (oder eine äquivalente Form) ist: <span class="text-green-700 font-bold">${q.answer}</span>`;
+                    // KaTeX rendering for the answer display to match the question style
+                    feedback.innerHTML = `Falsch. Die richtige Antwort (oder eine äquivalente Form) ist: <span class="text-green-700 font-bold">$$${q.answer}$$</span>`;
                     questionElement.appendChild(feedback);
+
+                    // Re-render KaTeX for the displayed answer
+                    if (typeof renderMathInElement !== 'undefined') {
+                        renderMathInElement(feedback, {
+                            delimiters: [
+                                {left: '$$', right: '$$', display: true},
+                                {left: '$', right: '$', display: false}
+                            ]
+                        });
+                    }
                 }
 
                 // Disable inputs after submission
