@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klassenarbeit Termumformungen (Set 3)</title>
+    <title>Klassenarbeit: Binomische Formeln & Faktorisieren (20 Fragen)</title>
     <!-- Tailwind CSS for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -46,14 +46,14 @@
             background-color: #f3f4f6;
         }
         .leaderboard-header {
-            background-color: #4f46e5;
+            background-color: #10b981; /* Emerald Green for a new feel */
             color: white;
             padding: 10px;
             border-radius: 8px 8px 0 0;
             font-weight: bold;
         }
         .leaderboard-list-container {
-            border: 1px solid #e0e7ff;
+            border: 1px solid #c7d2fe;
             border-radius: 0 0 8px 8px;
         }
     </style>
@@ -65,13 +65,13 @@
 
     <div class="container">
         <header class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-indigo-800">Klassenarbeit: Termumformungen (SET 3 - 50 Aufgaben)</h1>
-            <p class="text-lg text-gray-600 mt-2">Thema: Vereinfachen, Ausmultiplizieren, Faktorisieren, Komplexe Terme (Klasse 8).</p>
+            <h1 class="text-4xl font-extrabold text-emerald-700">Test: Binomische Formeln & Faktorisieren (20 Fragen)</h1>
+            <p class="text-lg text-gray-600 mt-2">Fokus: Binomische Formeln, Ausklammern und Auflösung (Klasse 8).</p>
         </header>
 
         <!-- Quiz Section -->
         <section id="quizSection" class="quiz-card">
-            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Ihr Test</h2>
+            <h2 class="text-2xl font-semibold text-emerald-600 mb-4">Ihr Test</h2>
 
             <div id="quiz-container" class="space-y-6">
                 <!-- Quiz questions will be injected here -->
@@ -82,21 +82,21 @@
                 <p id="score-text" class="text-2xl font-extrabold mt-2"></p>
                 <div class="mt-4">
                     <label for="studentName" class="block text-sm font-medium text-gray-700">Ihr Name (für die Bestenliste):</label>
-                    <input type="text" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" placeholder="z.B. Albert Einstein">
+                    <input type="text" id="studentName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 p-2" placeholder="z.B. Marie Curie">
                 </div>
-                <button onclick="saveResult()" id="saveButton" class="mt-4 w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out disabled:opacity-50">
+                <button onclick="saveResult()" id="saveButton" class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out disabled:opacity-50">
                     Test speichern & Ergebnis eintragen
                 </button>
             </div>
 
-            <button onclick="checkAnswers()" id="submitButton" class="mt-8 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg shadow-xl transition duration-150 ease-in-out">
-                Test abgeben (50 Aufgaben)
+            <button onclick="checkAnswers()" id="submitButton" class="mt-8 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-xl transition duration-150 ease-in-out">
+                Test abgeben (20 Aufgaben)
             </button>
         </section>
 
         <!-- Leaderboard Section -->
         <section class="mt-10">
-            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Bestenliste (Lokale Ergebnisse)</h2>
+            <h2 class="text-2xl font-semibold text-emerald-600 mb-4">Bestenliste (Lokale Ergebnisse)</h2>
             <div id="statusMessage" class="text-sm text-green-600 mb-4">Ergebnisse werden in Ihrem Browser gespeichert und abgerufen.</div>
 
             <div class="leaderboard-header flex justify-between">
@@ -121,99 +121,49 @@
         onload="document.addEventListener('DOMContentLoaded', () => { renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}] }); });"></script>
 
     <script>
-        // --- QUIZ DATA (Termumformungen Klasse 8 - Set 3) ---
+        // --- QUIZ DATA (Binomische Formeln & Faktorisieren - 20 Fragen) ---
         const questions = [
-            // --- KATEGORIE 1: Zusammenfassen (Vereinfachung) (1-13) ---
-            { text: "1. Vereinfachen Sie: $$ 7a + 8b - 2a - 5b $$", type: "text", answer: "5a + 3b" },
-            { text: "2. Vereinfachen Sie: $$ -4x + 9y - 6x - y $$", type: "text", answer: "-10x + 8y" },
-            { text: "3. Vereinfachen Sie: $$ 2.5k^2 - 1.5k + 0.5k^2 + 2k $$", type: "text", answer: "3k^2 + 0.5k" },
-            { text: "4. Vereinfachen Sie: $$ 15m - (7m - 4n) - 2n $$", type: "text", answer: "8m + 2n" },
-            { 
-                text: "5. Vereinfachen Sie: $$ \\frac{1}{4}u + \\frac{3}{8}u + v $$", 
-                type: "multiple-choice",
-                options: ["$ \\frac{4}{12}u + v $", "$ \\frac{5}{8}u + v $", "$ \\frac{1}{2}u + v $", "$ \\frac{7}{8}u + v $"],
-                answer: "\\frac{5}{8}u + v" 
-            },
-            { text: "6. Vereinfachen Sie: $$ p^3 - 5p^2 + 6p^3 + 5p^2 $$", type: "text", answer: "7p^3" },
-            { text: "7. Vereinfachen Sie: $$ -(2c + 5d) + 7c + 2d $$", type: "text", answer: "5c - 3d" },
-            { text: "8. Vereinfachen Sie: $$ 3xyz - 5xzy + 2yzx $$", type: "text", answer: "0" },
-            { text: "9. Vereinfachen Sie: $$ 1.1e - 0.5f + 2.9e + 1.5f $$", type: "text", answer: "4e + f" },
-            { text: "10. Vereinfachen Sie: $$ 10 - 2r + 4s - 5 + 3r $$", type: "text", answer: "r + 4s + 5" },
-            { text: "11. Vereinfachen Sie: $$ 3ab - 5ba + 7ab $$", type: "text", answer: "5ab" },
-            { text: "12. Vereinfachen Sie: $$ 0.5t^2 + t - 1.5t^2 + 2t $$", type: "text", answer: "-t^2 + 3t" },
-            { text: "13. Vereinfachen Sie: $$ 9.5 - (3.5 - 2h) $$", type: "text", answer: "6 + 2h" },
+            // --- KATEGORIE 1: Binomische Formeln (Auflösung / Expansion) (1-5) ---
+            { text: "1. Lösen Sie die 1. Binomische Formel auf: $$ (2x + 5)^2 $$", type: "text", answer: "4x^2 + 20x + 25" },
+            { text: "2. Lösen Sie die 2. Binomische Formel auf: $$ (3a - 4b)^2 $$", type: "text", answer: "9a^2 - 24ab + 16b^2" },
+            { text: "3. Lösen Sie die 3. Binomische Formel auf: $$ (7y + 2)(7y - 2) $$", type: "text", answer: "49y^2 - 4" },
+            { text: "4. Lösen Sie die 2. Binomische Formel auf: $$ (x^2 - 1)^2 $$", type: "text", answer: "x^4 - 2x^2 + 1" },
+            { text: "5. Lösen Sie die 1. Binomische Formel auf: $$ (0.5k + 6l)^2 $$", type: "text", answer: "0.25k^2 + 6kl + 36l^2" },
 
-            // --- KATEGORIE 2: Ausmultiplizieren (Distributivgesetz) (14-25) ---
-            { text: "14. Multiplizieren Sie aus: $$ 4(3x - 8y) $$", type: "text", answer: "12x - 32y" },
-            { text: "15. Multiplizieren Sie aus: $$ -5(2a + 3b - 1) $$", type: "text", answer: "-10a - 15b + 5" },
-            { text: "16. Multiplizieren Sie aus: $$ 2m^2(3m^2 - 5) $$", type: "text", answer: "6m^4 - 10m^2" },
-            { text: "17. Multiplizieren Sie aus: $$ 0.2(10k - 5l) $$", type: "text", answer: "2k - l" },
-            { text: "18. Multiplizieren Sie aus: $$ -ab(-2a + 5b) $$", type: "text", answer: "2a^2b - 5ab^2" },
-            { text: "19. Multiplizieren Sie aus: $$ (4r - 12s) \\cdot \\frac{1}{4} $$", type: "text", answer: "r - 3s" },
-            { text: "20. Multiplizieren Sie aus: $$ x^2(x^3 + 2x^2 - 3x) $$", type: "text", answer: "x^5 + 2x^4 - 3x^3" },
+            // --- KATEGORIE 2: Binomische Formeln (Faktorisieren / Erkennung) (6-10) ---
+            { text: "6. Faktorisieren Sie: $$ c^2 - 14c + 49 $$", type: "text", answer: "(c - 7)^2" },
+            { text: "7. Faktorisieren Sie: $$ 25m^2 - 81n^2 $$", type: "text", answer: "(5m - 9n)(5m + 9n)" },
+            { text: "8. Faktorisieren Sie: $$ 16 + 8p + p^2 $$", type: "text", answer: "(4 + p)^2" },
+            { text: "9. Faktorisieren Sie: $$ 4a^2b^2 - 1 $$", type: "text", answer: "(2ab - 1)(2ab + 1)" },
             { 
-                text: "21. Multiplizieren Sie aus: $$ -(4c - d + 5) $$", 
+                text: "10. Faktorisieren Sie: $$ 100x^2 + 20x + 1 $$", 
                 type: "multiple-choice",
-                options: ["$ 4c - d + 5 $", "$ -4c - d - 5 $", "$ -4c + d - 5 $", "$ 4c + d - 5 $"],
-                answer: "-4c + d - 5"
+                options: ["$ (10x + 1)^2 $", "$ (10x - 1)^2 $", "$ 10(x+1)^2 $", "$ (50x + 1)^2 $"],
+                answer: "(10x + 1)^2"
             },
-            { text: "22. Multiplizieren Sie aus: $$ 3p^2q(p^2 - 2q) $$", type: "text", answer: "3p^4q - 6p^2q^2" },
-            { text: "23. Multiplizieren Sie aus: $$ 0.5(4e^2 + 6f^2 - 8) $$", type: "text", answer: "2e^2 + 3f^2 - 4" },
-            { text: "24. Multiplizieren Sie aus: $$ -2(1.5g + 2.5h) $$", type: "text", answer: "-3g - 5h" },
-            { text: "25. Multiplizieren Sie aus: $$ (3 + x) \\cdot 5 $$", type: "text", answer: "15 + 5x" },
 
-            // --- KATEGORIE 3: Faktorisieren (Ausklammern) (26-38) ---
-            { text: "26. Klammern Sie den größten gemeinsamen Faktor aus: $$ 8a - 12b $$", type: "text", answer: "4(2a - 3b)" },
-            { text: "27. Klammern Sie den größten gemeinsamen Faktor aus: $$ 15x^3 + 10x^2 $$", type: "text", answer: "5x^2(3x + 2)" },
-            { text: "28. Klammern Sie den größten gemeinsamen Faktor aus: $$ 27m^4 - 9m^3 $$", type: "text", answer: "9m^3(3m - 1)" },
-            { text: "29. Klammern Sie den größten gemeinsamen Faktor aus: $$ 6p^2qr - 12pqr $$", type: "text", answer: "6pqr(p - 2)" },
-            { text: "30. Klammern Sie den größten gemeinsamen Faktor aus: $$ 13y^2 + 13y $$", type: "text", answer: "13y(y + 1)" },
-            { 
-                text: "31. Klammern Sie den größten gemeinsamen Faktor aus: $$ -4c^2 + 8c $$", 
-                type: "multiple-choice",
-                options: ["$ 4c(2 - c) $", "$ -4c(c - 2) $", "$ -4(c^2 - 2c) $", "$ 4c(-c - 2) $"],
-                answer: "-4c(c - 2)"
-            },
-            { text: "32. Klammern Sie den größten gemeinsamen Faktor aus: $$ a^5 - a^3 + 2a^2 $$", type: "text", answer: "a^2(a^3 - a + 2)" },
-            { text: "33. Klammern Sie den größten gemeinsamen Faktor aus: $$ 9k^3l^2 - 18k^2l^3 $$", type: "text", answer: "9k^2l^2(k - 2l)" },
-            { text: "34. Klammern Sie den größten gemeinsamen Faktor aus: $$ 0.5r + 1.5s $$", type: "text", answer: "0.5(r + 3s)" },
-            { text: "35. Klammern Sie den größten gemeinsamen Faktor aus: $$ 4ef - 8eg + 12eh $$", type: "text", answer: "4e(f - 2g + 3h)" },
-            { 
-                text: "36. Klammern Sie den gemeinsamen Faktor aus: $$ x(c+d) + 5(c+d) $$", 
-                type: "multiple-choice",
-                options: ["$ (c+d)(x+5) $", "$ (c-d)(x+5) $", "$ 5x(c+d) $", "$ x+5 $"],
-                answer: "(c+d)(x+5)"
-            },
-            { text: "37. Klammern Sie den größten gemeinsamen Faktor aus: $$ 100z^3 - 40z^2 + 20z $$", type: "text", answer: "20z(5z^2 - 2z + 1)" },
-            { text: "38. Klammern Sie den größten gemeinsamen Faktor aus: $$ 6.5g^2 - 13h^2 $$", type: "text", answer: "6.5(g^2 - 2h^2)" },
+            // --- KATEGORIE 3: Ausklammern (Faktorisieren mit GGT) (11-15) ---
+            { text: "11. Klammern Sie den größten gemeinsamen Faktor aus: $$ 18a^3 - 12a^2 $$", type: "text", answer: "6a^2(3a - 2)" },
+            { text: "12. Klammern Sie den größten gemeinsamen Faktor aus: $$ 4xy + 8x - 12x^2 $$", type: "text", answer: "4x(y + 2 - 3x)" },
+            { text: "13. Klammern Sie den größten gemeinsamen Faktor aus: $$ 15k^4 + 5k^3 - 25k^2 $$", type: "text", answer: "5k^2(3k^2 + k - 5)" },
+            { text: "14. Klammern Sie den größten gemeinsamen Faktor aus: $$ 9u - 3v + 1 $$", type: "text", answer: "1(9u - 3v + 1)" }, // Nur 1 oder -1 ausklammerbar
+            { text: "15. Klammern Sie den größten gemeinsamen Faktor aus: $$ 0.5m^2n + 1.5mn $$", type: "text", answer: "0.5mn(m + 3)" },
 
-            // --- KATEGORIE 4: Komplexe / Vermischte Terme (inkl. Binome) (39-50) ---
-            { text: "39. Vereinfachen Sie: $$ 2(4x - 1) - 8x $$", type: "text", answer: "-2" },
-            { text: "40. Vereinfachen Sie: $$ 5a - 3(2a - 4) $$", type: "text", answer: "-a + 12" },
-            { text: "41. Vereinfachen Sie: $$ (m + 3)^2 - m^2 $$", type: "text", answer: "6m + 9" }, // Binom
-            { text: "42. Vereinfachen Sie: $$ (4y - 1)^2 - 16y^2 $$", type: "text", answer: "-8y + 1" }, // Binom
+            // --- KATEGORIE 4: Auflösung / Vermischte Terme (16-20) ---
+            { text: "16. Vereinfachen Sie: $$ 3(5x - 7) + 2x $$", type: "text", answer: "17x - 21" },
+            { text: "17. Vereinfachen Sie: $$ -4(2a + 3) + 12a $$", type: "text", answer: "4a - 12" },
+            { text: "18. Vereinfachen Sie: $$ x(x^2 - 3) - x^3 $$", type: "text", answer: "-3x" },
+            { text: "19. Vereinfachen Sie: $$ 2(k - 5) - (k + 3) $$", type: "text", answer: "k - 13" },
             { 
-                text: "43. Vereinfachen Sie: $$ x(x - 2) - 3(x + 1) $$", 
+                text: "20. Vereinfachen Sie den Bruch: $$ \\frac{9y^3 + 6y^2 - 3y}{3y} $$", 
                 type: "multiple-choice",
-                options: ["$ x^2 - 5x + 3 $", "$ x^2 - 5x - 3 $", "$ 2x - 3 $", "$ x^2 - 2x - 3 $"],
-                answer: "x^2 - 5x - 3"
-            },
-            { text: "44. Vereinfachen Sie: $$ (p - 9)(p + 9) + 81 $$", type: "text", answer: "p^2" }, // Binom
-            { text: "45. Vereinfachen Sie den Bruch: $$ \\frac{10a^5 + 5a^4}{5a^3} $$", type: "text", answer: "2a^2 + a" },
-            { 
-                text: "46. Vereinfachen Sie: $$ 3r(2r - 1) - 6r^2 $$", 
-                type: "multiple-choice",
-                options: ["$ 12r^2 - 3r $", "$ 6r^2 - 3r $", "$ -3r $", "$ 3r $"],
-                answer: "-3r"
-            },
-            { text: "47. Vereinfachen Sie: $$ 2(e + f) - 2e + f $$", type: "text", answer: "3f" },
-            { text: "48. Vereinfachen Sie: $$ (k+4)^2 - (k-4)^2 $$", type: "text", answer: "16k" }, // Binom
-            { text: "49. Vereinfachen Sie: $$ 0.5(4g + 6h) - 2g $$", type: "text", answer: "3h" },
-            { text: "50. Vereinfachen Sie den Bruch: $$ \\frac{12x^2y^3 - 6x^3y^2}{6x^2y^2} $$", type: "text", answer: "2y - x" }
+                options: ["$ 3y^2 + 2y - 1 $", "$ 3y^2 + 2y $", "$ 3y^2 + 6y - 3 $", "$ 6y^2 + 3y $"],
+                answer: "3y^2 + 2y - 1" 
+            }
         ];
 
         // --- LOCAL STORAGE & LEADERBOARD LOGIC ---
-        const STORAGE_KEY = 'mathQuizScores3'; // New key for the new set
+        const STORAGE_KEY = 'mathQuizScoresBF20'; // Specific key for this 20-question set
 
         function getScores() {
             try {
@@ -265,9 +215,9 @@
                 });
 
                 const item = document.createElement('li');
-                item.className = `flex justify-between items-center p-3 rounded-lg shadow-sm mb-2 text-sm bg-white hover:bg-indigo-50 transition duration-100 border border-gray-100`;
+                item.className = `flex justify-between items-center p-3 rounded-lg shadow-sm mb-2 text-sm bg-white hover:bg-emerald-50 transition duration-100 border border-gray-100`;
                 item.innerHTML = `
-                    <span class="w-1/12 text-center text-lg font-bold text-indigo-600">${index + 1}.</span>
+                    <span class="w-1/12 text-center text-lg font-bold text-emerald-600">${index + 1}.</span>
                     <span class="w-7/12 truncate text-gray-800">${scoreData.studentName || 'Anonym'}</span>
                     <span class="w-2/12 text-center text-lg font-extrabold text-green-600">${scoreData.score}%</span>
                     <span class="w-2/12 text-right text-gray-500 text-xs">${dateString}</span>
@@ -316,19 +266,44 @@
             // Reordering terms (e.g., 13a+3b vs 3b+13a)
             const parts = correctNormalized.match(/([+-]?[^+-]+)/g) || [correctNormalized];
             if (parts.length > 1) {
-                const reversedNormalized = parts.slice().reverse().join('');
-                if (userNormalized === reversedNormalized) return true;
+                // Attempt to match user input against terms in a different order
+                const userParts = userNormalized.match(/([+-]?[^+-]+)/g) || [userNormalized];
+                if (userParts.length === parts.length) {
+                    const sortedCorrect = parts.map(p => p.startsWith('+') ? p.substring(1) : p).sort().join('');
+                    const sortedUser = userParts.map(p => p.startsWith('+') ? p.substring(1) : p).sort().join('');
+
+                    if (sortedCorrect === sortedUser) return true;
+                }
+                
+                // Special case for (4+p)^2 vs (p+4)^2: both normalize to 16+8p+p^2
+                if (userNormalized.includes(')^2') && correctNormalized.includes(')^2')) {
+                    const contentA = correctNormalized.substring(1, correctNormalized.length - 2).split(/[+-]/).sort().join('');
+                    const contentB = userNormalized.substring(1, userNormalized.length - 2).split(/[+-]/).sort().join('');
+                    if (contentA === contentB) return true;
+                }
             }
 
             // Reordering factors in multiplication (e.g., (A)(B) vs (B)(A))
+            // This is especially important for factoring answers like (5m - 9n)(5m + 9n)
             if (correctAnswer.includes(')(') || (correctAnswer.includes('(') && correctAnswer.includes(')'))) {
-                // Extracts content inside parentheses: 4(2a+3b) -> 4, 2a+3b. Not perfect, but handles most cases.
+                // Simplified factor extraction for the 3rd binomial formula reverse
+                const match3rdBF = correctNormalized.match(/\(([^\)]+)\)\(([^\)]+)\)/);
+                if (match3rdBF) {
+                    const factor1 = match3rdBF[1];
+                    const factor2 = match3rdBF[2];
+                    
+                    const altAnswer = `(${factor2})(${factor1})`;
+                    if (userNormalized === altAnswer) return true;
+                }
+
+                // Generic factored form check:
                 const factorMatch = correctNormalized.match(/([a-z0-9.]+|[a-z0-9.][\^][0-9]+|[\(][^\)]+[\)])/g);
                 if (factorMatch && factorMatch.length === 2) {
-                    const altAnswer = factorMatch.reverse().join('');
+                    const altAnswer = factorMatch.slice().reverse().join('');
                     if (userNormalized === altAnswer) return true;
                 }
             }
+
 
             return false;
         }
@@ -354,7 +329,7 @@
                     
                     q.options.forEach(option => {
                         const label = document.createElement('label');
-                        label.className = 'flex items-center space-x-2 text-gray-700 cursor-pointer hover:bg-indigo-50 p-2 rounded-md transition';
+                        label.className = 'flex items-center space-x-2 text-gray-700 cursor-pointer hover:bg-emerald-50 p-2 rounded-md transition';
                         
                         // Create the span and let KaTeX render it after insertion
                         const optionSpan = document.createElement('span');
@@ -365,7 +340,7 @@
                         input.type = 'radio';
                         input.name = `question${qIndex}`;
                         input.value = option;
-                        input.className = 'text-indigo-600 focus:ring-indigo-500 h-4 w-4';
+                        input.className = 'text-emerald-600 focus:ring-emerald-500 h-4 w-4';
                         input.setAttribute('data-q-index', qIndex);
 
                         label.appendChild(input);
@@ -376,8 +351,8 @@
                 } else if (q.type === 'text') {
                     const input = document.createElement('input');
                     input.type = 'text';
-                    input.placeholder = 'Ihre vereinfachte Lösung (z.B. 2x^2 + 5x - 7)...';
-                    input.className = 'w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-lg';
+                    input.placeholder = 'Ihre vereinfachte Lösung (z.B. (x+3)^2 oder 2a+5)...';
+                    input.className = 'w-full mt-2 p-3 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-lg';
                     input.setAttribute('data-q-index', qIndex);
                     questionDiv.appendChild(input);
                 }
@@ -460,7 +435,7 @@
 
             // Calculate and display final score
             finalScorePercentage = Math.round((score / totalQuestions) * 100);
-            scoreText.innerHTML = `Sie haben <span class="text-indigo-800">${score} von ${totalQuestions}</span>, oder **${finalScorePercentage}%** erzielt!`;
+            scoreText.innerHTML = `Sie haben <span class="text-emerald-800">${score} von ${totalQuestions}</span>, oder **${finalScorePercentage}%** erzielt!`;
             
             // Update UI state
             submitButton.classList.add('hidden');
